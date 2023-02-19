@@ -31,9 +31,9 @@ class App(tk.Frame):
 
         self.appMembers()
 
-        self.appState.setState(AppState.S_SPLASH)
+        self.appState.setState(AppState.splash)
         self.screen = self.screen_Splash
-        self.changeScreens(AppState.S_SPLASH)
+        self.changeScreens(AppState.splash)
         self.startInputListener()
         self.root.update()
         print("Waiting 3 seconds...")
@@ -49,8 +49,8 @@ class App(tk.Frame):
 
 
         self.appState = AppState()
-        self.appState.setState(AppState.S_SPLASH)
-        self.inputListener = InputListener()
+        self.appState.setState(AppState.splash)
+        self.inputListener = Listener()
         self.inputListener.bindAllScreensAndAppState(self.screen_Splash, self.screen_EditGame, self.appState)
 
     def gridConfigure(self):
@@ -79,9 +79,9 @@ class App(tk.Frame):
 
 
     def unloadCurrentScreen(self):
-        if self.appState.getState() == AppState.S_SPLASH:
+        if self.appState.getState() == AppState.splash:
             self.unloadScreen_Splash()
-        elif self.appState.getState() == AppState.S_EDITGAME:
+        elif self.appState.getState() == AppState.playerEntry:
             self.unloadScreen_EditGame()
         elif self.appState.getState() == AppState.S_PLAYGAME:
             self.unloadScreen_PlayGame()
@@ -89,13 +89,13 @@ class App(tk.Frame):
             print("Changing from unknown screen")
 
     def loadScreen(self, nextScreen):
-        if nextScreen == AppState.S_SPLASH:
+        if nextScreen == AppState.splash:
             print("Loading Splash...")
-            self.appState.setState(AppState.S_SPLASH)
+            self.appState.setState(AppState.splash)
             self.loadScreen_Splash()
-        elif nextScreen == AppState.S_EDITGAME:
+        elif nextScreen == AppState.playerEntry:
             print("Loading Edit Game...")
-            self.appState.setState(AppState.S_EDITGAME)
+            self.appState.setState(AppState.playerEntry)
             self.loadScreen_EditGame()
         else:
             print("Not a valid screen!")
@@ -116,7 +116,7 @@ class App(tk.Frame):
     def showSplashFor3Sec(self):
         print("3 seconds finished.")
         self.root.after_cancel(self.idRootAfter)
-        self.changeScreens(AppState.S_EDITGAME)
+        self.changeScreens(AppState.playerEntry)
 
     def closeDB(self):
         if self.screen_EditGame == None:

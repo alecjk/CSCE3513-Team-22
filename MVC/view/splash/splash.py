@@ -17,7 +17,7 @@ class Screen_Splash(AppObject):
         self.mainFrame = tk.Frame(self,
                                   bg=strBGColor)
         self.propagateWidget(self.mainFrame)
-        self.imgSplash = tk.PhotoImage(file="./logo.jpg")
+        self.imgSplash = tk.PhotoImage(file="resources/logo.png")
         self.labelSplash = tk.Label(self.mainFrame,
                                     image=self.imgSplash)
 

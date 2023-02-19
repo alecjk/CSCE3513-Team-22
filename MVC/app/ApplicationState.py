@@ -1,9 +1,9 @@
 class AppState:
-    S_SPLASH = 0
-    S_EDITGAME = 1
+    splash = 0
+    playerEntry = 1
 
     def __init__(self, state=None):
-        self.state = self.S_SPLASH
+        self.state = self.splash
 
     def setState(self, state):
         self.state = state

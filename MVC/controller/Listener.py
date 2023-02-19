@@ -1,15 +1,12 @@
-import random
 from pynput import keyboard
 from MVC.app.ApplicationState import *
 from MVC.view.playerEntry.screenPlayerEntry import *
 from MVC.view.splash.splash import *
 
 
-class InputListener:
+class Listener:
     def __init__(self):
         self.listener = None
-        # Needed for bug with F10 key.
-        self.inputSim = keyboard.Controller()
 
     def bindAllScreensAndAppState(self, splash, edit, appState):
         self.screen_Splash = splash
@@ -29,12 +26,12 @@ class InputListener:
         return True
 
     def on_press(self, key):
-        if self.appState.getState() == AppState.S_EDITGAME:
+        if self.appState.getState() == AppState.playerEntry:
             if self.screen_EditGame.getMenuState() == self.screen_EditGame.PLAYERSELECT:
                 self.editgame_PlayerSelect(key)
             elif self.screen_EditGame.getMenuState() != self.screen_EditGame.PLAYERSELECT:
                 self.editgame_PlayerIns(key)
-        elif self.appState.getState() == AppState.S_SPLASH:
+        elif self.appState.getState() == AppState.splash:
             pass
 
     def editgame_PlayerSelect(self, key):

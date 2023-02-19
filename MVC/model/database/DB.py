@@ -23,7 +23,7 @@ class Database():
         self.conn = None
         self.cursor = None
         self.intConnection = Database.DB_NO_CONN
-        self.strSelectedTable = "Team22Lasortag"
+        self.strSelectedTable = "player"
 
 
 

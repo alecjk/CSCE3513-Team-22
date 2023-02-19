@@ -56,7 +56,7 @@ class Screen_EditGame(AppObject):
         strFontSize = 14
 
         self.labelFooter = tk.Label(self,
-                                    text="<Del> to delete player, <Ins> to Manually Insert, or edit codename",
+                                    text="<Ins> Insert Player or Edit <Del> Delete player",
                                     fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
         self.proWidget(self.labelFooter)
 

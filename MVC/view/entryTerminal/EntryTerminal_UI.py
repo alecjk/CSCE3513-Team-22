@@ -46,7 +46,7 @@ class UI_EditGame(AppObject):
         BGColor = "#d9d9d9"  # Very light gray, almost white
 
         self.labelFooter = tk.Label(self,
-                                    text="<Del> to delete player, <Ins> to Manually Insert, or edit codename",
+                                    text="<Ins> Insert Player or Edit <Del> Delete player,",
                                     fg=TextColor, bg=BGColor, font=(self.strDefaultFont, 14))
         self.proWidget(self.labelFooter)
 

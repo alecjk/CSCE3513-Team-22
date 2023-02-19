@@ -1,11 +1,21 @@
 import os
+import export as export
 import psycopg2
 import sqlite3
+from supabase import create_client, Client
+import json
 
+
+
+#export <"SUPABASE_URL">=<"https://euvyjxtkzixoflcdcwof.supabase.co">
+#export SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE"
+url: str = os.environ.get("https://euvyjxtkzixoflcdcwof.supabase.co")
+key: str = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE")
+#supabase: Client = create_client(url, key)
 
 class Database():
     DB_NO_CONN = 0
-    DB_HEROKU = 1
+    DB_SUPABASE = 1
     DB_SQLITE = 2
 
     def __init__(self):
@@ -13,7 +23,9 @@ class Database():
         self.conn = None
         self.cursor = None
         self.intConnection = Database.DB_NO_CONN
-        self.strSelectedTable = "player"
+        self.strSelectedTable = "Team22Lasortag"
+
+
 
     def openConnection(self):
         try:
@@ -21,7 +33,7 @@ class Database():
             print(self.conn)
             self.cursor = self.conn.cursor()
             print(self.cursor)
-            self.intConnection = Database.DB_HEROKU
+            self.intConnection = Database.DB_SUPABASE
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error:")
             print(error)
@@ -90,7 +102,7 @@ class Database():
         try:
             if self.cursor is not None:
                 data = [id]
-                if self.intConnection == Database.DB_HEROKU:
+                if self.intConnection == Database.DB_SUPABASE:
                     self.cursor.execute(
                         "DELETE FROM {table} WHERE id=%s RETURNING *".format(table=self.strSelectedTable), data)
                     rows = self.cursor.fetchall()
@@ -125,7 +137,7 @@ class Database():
     def findId(self, id):
         if self.cursor is not None:
             data = [id]
-            if self.intConnection == Database.DB_HEROKU:
+            if self.intConnection == Database.DB_SUPABASE:
                 self.cursor.execute("""
                 SELECT * FROM {table} WHERE id=%s;""".format(table=self.strSelectedTable), data)
                 return self.cursor.fetchall()
@@ -140,7 +152,7 @@ class Database():
         if self.isPlayerInfoValid(listPlayerInfo):
             if self.cursor is not None:
                 data = [listPlayerInfo[1], listPlayerInfo[2], listPlayerInfo[3], listPlayerInfo[0]]
-                if self.intConnection == Database.DB_HEROKU:
+                if self.intConnection == Database.DB_SUPABASE:
                     self.cursor.execute("""
                     UPDATE {table} 
                     SET first_name=%s, last_name=%s, codename=%s WHERE id=%s;
@@ -176,7 +188,7 @@ class Database():
     def findPlayerByName(self, firstName, lastName):
         if self.cursor is not None:
             data = (firstName.upper(), lastName.upper())
-            if self.intConnection == Database.DB_HEROKU:
+            if self.intConnection == Database.DB_SUPABASE:
                 self.cursor.execute("""
                 SELECT person.id, person.first_name, person.last_name, person.codename
                 FROM {table} AS person
@@ -204,7 +216,7 @@ class Database():
     def insertPlayer(self, listPlayerInfo):
         if self.isPlayerInfoValid(listPlayerInfo):
             if self.cursor is not None:
-                if self.intConnection == Database.DB_HEROKU:
+                if self.intConnection == Database.DB_SUPABASE:
                     self.cursor.execute("""
                     INSERT INTO {table} (id, first_name, last_name, codename) VALUES (%s, %s, %s, %s);""".format(
                         table=self.strSelectedTable), listPlayerInfo)

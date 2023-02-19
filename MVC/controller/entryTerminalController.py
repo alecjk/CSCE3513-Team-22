@@ -1,15 +1,15 @@
 from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.display_EntryBox import *
-from MVC.model.playerEntry.addPlayerName import *
-from MVC.model.playerEntry.addPlayerCodename import *
-from MVC.view.playerEntry.teamBox import *
+from MVC.model.entryTerminal.addPlayerName import *
+from MVC.model.entryTerminal.addPlayerCodename import *
+from MVC.view.entryTerminal.teamBox import *
 
-class MenuManager_EditGame(AppObject):
-    INDEX_PINFO_ID = 0
-    INDEX_PINFO_FNAME = 1
-    INDEX_PINFO_LNAME = 2
-    INDEX_PINFO_CODE = 3
+class entryTerminalController(AppObject):
+    INDEX_PLAYER_ID = 0
+    INDEX_PLAYER_FIRST_NAME = 1
+    INDEX_PLAYER_LAST_NAME = 2
+    INDEX_PLAYER_CODE = 3
     PLAYERSELECT = 0
     PLAYERNAME = 1
     ASKUSEPREVCODE = 2
@@ -69,14 +69,14 @@ class MenuManager_EditGame(AppObject):
         self.menuDeleteDBConfirm.openSelf()
 
     def openAddPlayerID(self):
-        self.showSelf()
+        self.show()
         self.intMenu = self.PLAYERID
         self.menuAddPlayerID.openSelf()
         self.menuAddPlayerID.setInputEntryText(self.frameTeamBoxes.getPlayerIDAtArrow())
         self.root.update()  # keep
 
     def openAddPlayerName(self):
-        self.showSelf()
+        self.show()
         self.intMenu = self.PLAYERNAME  # keep
         listPlayerAtArrow = self.getPlayerAtArrow()  # keep
         self.menuAddPlayerName.setPlayerName(listPlayerAtArrow[0],
@@ -90,7 +90,7 @@ class MenuManager_EditGame(AppObject):
         self.root.update()  # keep
 
     def openMoveToPlayConfirm(self):
-        self.showSelf()
+        self.show()
         self.intMenu = self.MOVETOPLAYCONFIRM
         self.menuMoveToPlayConfirm.openSelf()
         self.root.update()
@@ -149,19 +149,19 @@ class MenuManager_EditGame(AppObject):
 
     def submitYes_UsePrevCodename(self):
         self.menuUsePrevCodename.closeSelf()
-        strPlayerName = self.listPlayerInfo[self.INDEX_PINFO_FNAME] + " " + self.listPlayerInfo[self.INDEX_PINFO_LNAME]
+        strPlayerName = self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] + " " + self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME]
         if len(strPlayerName) <= 1:
             strPlayerName = "(Left blank)"
-        self.addPlayer(self.listPlayerInfo[self.INDEX_PINFO_ID],
+        self.addPlayer(self.listPlayerInfo[self.INDEX_PLAYER_ID],
                        strPlayerName,
-                       self.listPlayerInfo[self.INDEX_PINFO_CODE])
+                       self.listPlayerInfo[self.INDEX_PLAYER_CODE])
         self.switchToMainMenu()
 
     def submitNo_UsePrevCodename(self):
         self.intMenu = self.PLAYERCODENAME
         self.menuUsePrevCodename.closeSelf()
         self.menuAddCodename.openSelf()
-        self.menuAddCodename.setInputEntryText(self.listPlayerInfo[self.INDEX_PINFO_CODE])
+        self.menuAddCodename.setInputEntryText(self.listPlayerInfo[self.INDEX_PLAYER_CODE])
 
     def submitYes_DeleteDB(self):
         self.menuDeleteDBConfirm.closeSelf()
@@ -217,26 +217,26 @@ class MenuManager_EditGame(AppObject):
                 self.menuAddPlayerID.setError("ID must be less than 100,000!", boolOverwrite=True)
             elif not self.frameTeamBoxes.isIDAlreadyEntered(intID) or strPlayerIDAtArrow == strID:
                 self.menuAddPlayerID.closeSelf()
-                self.listPlayerInfo[self.INDEX_PINFO_ID] = intID
+                self.listPlayerInfo[self.INDEX_PLAYER_ID] = intID
                 # Check DB for ID
-                playerRow = self.database.findId(self.listPlayerInfo[self.INDEX_PINFO_ID])
+                playerRow = self.database.findId(self.listPlayerInfo[self.INDEX_PLAYER_ID])
                 print(playerRow)
                 if len(playerRow) < 1:
                     print("Player not found")
                     self.intMenu = self.PLAYERCODENAME
-                    self.listPlayerInfo[self.INDEX_PINFO_ID] = intID
-                    self.listPlayerInfo[self.INDEX_PINFO_FNAME] = "(blank)"
-                    self.listPlayerInfo[self.INDEX_PINFO_LNAME] = "(blank)"
+                    self.listPlayerInfo[self.INDEX_PLAYER_ID] = intID
+                    self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = "(blank)"
+                    self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = "(blank)"
                     self.menuAddCodename.openSelf()
                 else:
                     player = playerRow[0]  # First occurrence, if somehow multiple entries
                     self.intMenu = self.ASKUSEPREVCODE
-                    self.menuUsePrevCodename.setCodename(player[self.INDEX_PINFO_CODE])
+                    self.menuUsePrevCodename.setCodename(player[self.INDEX_PLAYER_CODE])
                     self.menuUsePrevCodename.openSelf()
-                    self.listPlayerInfo[self.INDEX_PINFO_ID] = player[self.INDEX_PINFO_ID]
-                    self.listPlayerInfo[self.INDEX_PINFO_FNAME] = player[self.INDEX_PINFO_FNAME]
-                    self.listPlayerInfo[self.INDEX_PINFO_LNAME] = player[self.INDEX_PINFO_LNAME]
-                    self.listPlayerInfo[self.INDEX_PINFO_CODE] = player[self.INDEX_PINFO_CODE]
+                    self.listPlayerInfo[self.INDEX_PLAYER_ID] = player[self.INDEX_PLAYER_ID]
+                    self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = player[self.INDEX_PLAYER_FIRST_NAME]
+                    self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = player[self.INDEX_PLAYER_LAST_NAME]
+                    self.listPlayerInfo[self.INDEX_PLAYER_CODE] = player[self.INDEX_PLAYER_CODE]
             else:
                 self.menuAddPlayerID.setError("ID already entered for this game!\nPlease enter another ID instead.",
                                               boolOverwrite=True)
@@ -246,8 +246,8 @@ class MenuManager_EditGame(AppObject):
 
     def submitPlayerName(self, strFirstName, strLastName):
         self.menuAddPlayerName.closeSelf()
-        self.listPlayerInfo[self.INDEX_PINFO_FNAME] = strFirstName
-        self.listPlayerInfo[self.INDEX_PINFO_LNAME] = strLastName
+        self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = strFirstName
+        self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = strLastName
         # Check DB for name
         playerRow = self.database.findPlayerByName(strFirstName, strLastName)
         if len(playerRow) < 1:
@@ -258,28 +258,28 @@ class MenuManager_EditGame(AppObject):
             player = playerRow[0]  # First occurrence, if somehow multiple entries
             print(player)
             self.intMenu = self.ASKUSEPREVCODE
-            self.menuUsePrevCodename.setCodename(player[self.INDEX_PINFO_CODE])
+            self.menuUsePrevCodename.setCodename(player[self.INDEX_PLAYER_CODE])
             self.menuUsePrevCodename.openSelf()
-            self.listPlayerInfo[self.INDEX_PINFO_ID] = player[self.INDEX_PINFO_ID]
-            self.listPlayerInfo[self.INDEX_PINFO_CODE] = player[self.INDEX_PINFO_CODE]
+            self.listPlayerInfo[self.INDEX_PLAYER_ID] = player[self.INDEX_PLAYER_ID]
+            self.listPlayerInfo[self.INDEX_PLAYER_CODE] = player[self.INDEX_PLAYER_CODE]
 
     def submitCodeName(self, strCodeName):
         self.listPlayerInfo[3] = strCodeName
         self.menuAddCodename.closeSelf()
         print(self.listPlayerInfo)
-        if self.listPlayerInfo[self.INDEX_PINFO_ID] == -1:  # should never occur - quick-change to remove functionality
+        if self.listPlayerInfo[self.INDEX_PLAYER_ID] == -1:  # should never occur - quick-change to remove functionality
             row = self.database.getLastId()
             id = 0
             if len(row) == 0:
                 id = 1
             else:
-                id = row[0][self.INDEX_PINFO_ID] + 1
-            self.listPlayerInfo[self.INDEX_PINFO_ID] = id
+                id = row[0][self.INDEX_PLAYER_ID] + 1
+            self.listPlayerInfo[self.INDEX_PLAYER_ID] = id
             if self.database.findId(id) == []:
                 self.database.insertPlayer(self.listPlayerInfo)
                 self.database.commit()
         else:
-            id = self.listPlayerInfo[self.INDEX_PINFO_ID]
+            id = self.listPlayerInfo[self.INDEX_PLAYER_ID]
             if self.database.findId(id) != []:
                 self.database.updateUsingId(self.listPlayerInfo)
                 self.database.commit()
@@ -288,12 +288,12 @@ class MenuManager_EditGame(AppObject):
                 self.database.commit()
         rows = self.database.getAllRows()
         # print(rows)
-        strPlayerName = self.listPlayerInfo[self.INDEX_PINFO_FNAME] + " " + self.listPlayerInfo[self.INDEX_PINFO_LNAME]
+        strPlayerName = self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] + " " + self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME]
         if len(strPlayerName) <= 1:
             strPlayerName = "(Left blank)"
-        self.addPlayer(self.listPlayerInfo[self.INDEX_PINFO_ID],
+        self.addPlayer(self.listPlayerInfo[self.INDEX_PLAYER_ID],
                        strPlayerName,
-                       self.listPlayerInfo[self.INDEX_PINFO_CODE])
+                       self.listPlayerInfo[self.INDEX_PLAYER_CODE])
         self.switchToMainMenu()
 
     def getPlayerAtArrow(self):

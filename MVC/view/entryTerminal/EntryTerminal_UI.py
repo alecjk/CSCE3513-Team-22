@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
-from MVC.view.playerEntry.teamBox import *
-from MVC.controller.playerEntryController import *
+from MVC.view.entryTerminal.teamBox import *
+from MVC.controller.entryTerminalController import *
 
 
 class UI_EditGame(AppObject):
@@ -13,7 +13,7 @@ class UI_EditGame(AppObject):
         self.createScreen()
         self.gridify()
         self.switchToMainMenu()
-        self.hideSelf()
+        self.hide()
 
     def createScreen(self):
         self["bg"] = "#000000"
@@ -27,11 +27,11 @@ class UI_EditGame(AppObject):
         BGColor = "#000000"  # Black
         self.labelEditGame = tk.Label(self, text="Edit Current Game", fg=TextColor, bg=BGColor,
                                       font=(self.strDefaultFont, 25))
-        self.propagateWidget(self.labelEditGame)
+        self.proWidget(self.labelEditGame)
 
     def createTeamBoxes(self):
         self.frameTeamBoxes = Frame_TeamBoxes(self)
-        self.propagateWidget(self.frameTeamBoxes)
+        self.proWidget(self.frameTeamBoxes)
 
     def createFKeys(self):
         self.frameFKeys = Frame_FKeys(self)
@@ -48,7 +48,7 @@ class UI_EditGame(AppObject):
         self.labelFooter = tk.Label(self,
                                     text="<Del> to delete player, <Ins> to Manually Insert, or edit codename",
                                     fg=TextColor, bg=BGColor, font=(self.strDefaultFont, 14))
-        self.propagateWidget(self.labelFooter)
+        self.proWidget(self.labelFooter)
 
     # Intended to be used after gridify()
     def setMenuManagerOntoGrid(self, menuManagerFrame):
@@ -78,7 +78,7 @@ class UI_EditGame(AppObject):
 
         self.frameTeamBoxes.grid(column=2, row=2, columnspan=20, rowspan=31, sticky="NSEW")
         self.frameTeamBoxes.gridify()
-        self.frameTeamBoxes.showSelf()
+        self.frameTeamBoxes.show()
 
         self.frameFKeys.grid(column=0, row=intPosFKeyRow, rowspan=intFKeyRowSpan, columnspan=intMainFrameCols,
                              sticky="NSEW")

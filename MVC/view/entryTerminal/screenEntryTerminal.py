@@ -1,8 +1,8 @@
 import tkinter as tk
 from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
-from MVC.view.playerEntry.teamBox import *
-from MVC.controller.playerEntryController import *
+from MVC.view.entryTerminal.teamBox import *
+from MVC.controller.entryTerminalController import *
 
 
 class Screen_EditGame(AppObject):
@@ -26,7 +26,7 @@ class Screen_EditGame(AppObject):
         self.createScreen()
         self.gridify()
         self.switchToMainMenu()
-        self.hideSelf()
+        self.hide()
 
     def createScreen(self):
         self["bg"] = "#000000"
@@ -43,11 +43,11 @@ class Screen_EditGame(AppObject):
 
         self.labelEditGame = tk.Label(self, text="Edit Current Game", fg=strTextColor, bg=strBGColor,
                                       font=(strFontStyle, intFontSize))
-        self.propagateWidget(self.labelEditGame)
+        self.proWidget(self.labelEditGame)
 
     def createTeamBoxes(self):
         self.frameTeamBoxes = Frame_TeamBoxes(self)
-        self.propagateWidget(self.frameTeamBoxes)
+        self.proWidget(self.frameTeamBoxes)
 
     def createLabelFooter(self):
         strTextColor = "#000000"  # Black
@@ -58,10 +58,10 @@ class Screen_EditGame(AppObject):
         self.labelFooter = tk.Label(self,
                                     text="<Del> to delete player, <Ins> to Manually Insert, or edit codename",
                                     fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
-        self.propagateWidget(self.labelFooter)
+        self.proWidget(self.labelFooter)
 
     def createMenuManager(self):
-        self.menuManager = MenuManager_EditGame(self)
+        self.menuManager = entryTerminalController(self)
         self.menuManager.setDatabase(self.database)
         self.menuManager.setTeamBoxes(self.frameTeamBoxes)
         self.menuManager.createSelf()
@@ -91,7 +91,7 @@ class Screen_EditGame(AppObject):
 
         self.frameTeamBoxes.grid(column=2, row=2, columnspan=20, rowspan=31, sticky="NSEW")
         self.frameTeamBoxes.gridify()
-        self.frameTeamBoxes.showSelf()
+        self.frameTeamBoxes.show()
 
         self.labelFooter.grid(column=0, row=41, columnspan=24, rowspan=1, sticky="NSEW")
 
@@ -117,7 +117,7 @@ class Screen_EditGame(AppObject):
         return self.frameTeamBoxes.getPlayerAtArrow()
 
     def openDeleteDBConfirmMenu(self):
-        self.menuManager.showSelf()
+        self.menuManager.show()
         self.menuManager.openDeleteDBConfirmMenu()
 
     def bind_ChangeToPlay(self, mFunc):
@@ -136,11 +136,11 @@ class Screen_EditGame(AppObject):
         self.menuManager.openAddCodename()
 
     def openMoveToPlayConfirm(self):
-        self.menuManager.showSelf()
+        self.menuManager.show()
         self.menuManager.openMoveToPlayConfirm()
 
     def openDebugFillPlayers(self):
-        self.menuManager.showSelf()
+        self.menuManager.show()
         self.menuManager.openDebugFillPlayers()
 
     def switchToMainMenu(self):

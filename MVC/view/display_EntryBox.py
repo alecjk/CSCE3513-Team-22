@@ -69,7 +69,7 @@ class Menu_SingleEntryBox(Menu):
         intTextsizeHint = 15
         intTextsizeMain = 16
 
-        self.propagateWidget(self)
+        self.proWidget(self)
         self.frameInterior = tk.Frame(self, bg=strBGColor)
         self.labelTitle = tk.Label(self.frameInterior,
                                    text="This is a Title",

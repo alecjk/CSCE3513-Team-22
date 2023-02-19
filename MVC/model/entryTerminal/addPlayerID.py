@@ -65,7 +65,7 @@ class Menu_AddCodename(Menu):
         intTextsizeHint = 15
         intTextsizeMain = 16
 
-        self.propagateWidget(self)
+        self.proWidget(self)
         self.frameInsPInterior = tk.Frame(self, bg=strBGColor)
         self.labelInsPHead = tk.Label(self.frameInsPInterior,
                                       text="Insert Player",

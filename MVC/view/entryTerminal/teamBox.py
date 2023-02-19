@@ -1,5 +1,5 @@
 from MVC.app.ApplicationObj import *
-from MVC.view.playerEntry.teamBoxEntry import *
+from MVC.view.entryTerminal.teamBoxEntry import *
 
 
 class Frame_TeamBoxes(AppObject):
@@ -23,8 +23,8 @@ class Frame_TeamBoxes(AppObject):
         self.frameTeamRed["bg"] = strRedTeamColor
         self.frameTeamGreen = Frame_EditTeam(self)
         self.frameTeamGreen["bg"] = strGreenTeamColor
-        self.propagateWidget(self.frameTeamRed)
-        self.propagateWidget(self.frameTeamGreen)
+        self.proWidget(self.frameTeamRed)
+        self.proWidget(self.frameTeamGreen)
 
         self.createRedTeamBox()
         self.createGreenTeamBox()

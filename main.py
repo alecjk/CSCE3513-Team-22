@@ -1,5 +1,5 @@
 from sys import platform
-from MVC.view.playerEntry.screenPlayerEntry import *
+from MVC.view.entryTerminal.screenEntryTerminal import *
 from MVC.view.splash.splash import *
 from MVC.app.ApplicationState import *
 from MVC.controller.Listener import *
@@ -51,7 +51,7 @@ class App(tk.Frame):
         self.appState = AppState()
         self.appState.setState(AppState.splash)
         self.inputListener = Listener()
-        self.inputListener.bindAllScreensAndAppState(self.screen_Splash, self.screen_EditGame, self.appState)
+        self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EditGame, self.appState)
 
     def gridConfigure(self):
         # Using grid instead of pack to allow frame-on-frame for
@@ -81,7 +81,7 @@ class App(tk.Frame):
     def unloadCurrentScreen(self):
         if self.appState.getState() == AppState.splash:
             self.unloadScreen_Splash()
-        elif self.appState.getState() == AppState.playerEntry:
+        elif self.appState.getState() == AppState.entryTerminal:
             self.unloadScreen_EditGame()
         elif self.appState.getState() == AppState.S_PLAYGAME:
             self.unloadScreen_PlayGame()
@@ -93,30 +93,30 @@ class App(tk.Frame):
             print("Loading Splash...")
             self.appState.setState(AppState.splash)
             self.loadScreen_Splash()
-        elif nextScreen == AppState.playerEntry:
+        elif nextScreen == AppState.entryTerminal:
             print("Loading Edit Game...")
-            self.appState.setState(AppState.playerEntry)
+            self.appState.setState(AppState.entryTerminal)
             self.loadScreen_EditGame()
         else:
             print("Not a valid screen!")
 
     def loadScreen_Splash(self):
         self.screen = self.screen_Splash
-        self.screen.showSelf()
+        self.screen.show()
 
     def unloadScreen_Splash(self):
-        self.screen.hideSelf()
+        self.screen.hide()
 
     def loadScreen_EditGame(self):
         self.screen = self.screen_EditGame
-        self.screen.showSelf()
+        self.screen.show()
         self.screen.tkraise()
 
 
     def showSplashFor3Sec(self):
         print("3 seconds finished.")
         self.root.after_cancel(self.idRootAfter)
-        self.changeScreens(AppState.playerEntry)
+        self.changeScreens(AppState.entryTerminal)
 
     def closeDB(self):
         if self.screen_EditGame == None:

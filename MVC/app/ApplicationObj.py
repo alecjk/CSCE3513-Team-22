@@ -7,7 +7,7 @@ class AppObject(tk.Frame):
         self.root = tkRoot
         self.setDefaults()
 
-    def propagateWidget(self, widget):
+    def proWidget(self, widget):
         widget.pack_propagate(False)
         widget.grid_propagate(False)
 
@@ -15,9 +15,9 @@ class AppObject(tk.Frame):
         self.strDefaultFont = "Arial"
         self["bg"] = "#000000"
 
-    def hideSelf(self):
+    def hide(self):
         self.grid_remove()
 
-    def showSelf(self):
+    def show(self):
         self.grid()
         self.tkraise()

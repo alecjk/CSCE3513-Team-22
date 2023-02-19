@@ -1,6 +1,6 @@
 class AppState:
     splash = 0
-    playerEntry = 1
+    entryTerminal = 1
 
     def __init__(self, state=None):
         self.state = self.splash

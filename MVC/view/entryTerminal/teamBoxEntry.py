@@ -27,7 +27,7 @@ class Frame_EditTeam(AppObject):
 
         self.labelTeamName = tk.Label(self, text=strTeamName, fg=strTextColor, bg=strTeamHeadBG,
                                       font=(strFontStyle, intTeamHFontSize), borderwidth=2, relief="groove")
-        self.propagateWidget(self.labelTeamName)
+        self.proWidget(self.labelTeamName)
 
         self.labelID = [None] * self.intPlayerEntries
         self.labelPlayerName = [None] * self.intPlayerEntries
@@ -50,10 +50,10 @@ class Frame_EditTeam(AppObject):
             self.labelPlayerName[i] = tk.Label(self, bd=2, font=(strFontStyle, intEntryFontSize), anchor="w")
             self.labelCodeName[i] = tk.Label(self, bd=2, font=(strFontStyle, intEntryFontSize), anchor="w")
 
-            self.propagateWidget(self.checkboxC[i])
-            self.propagateWidget(self.labelPlayerName[i])
-            self.propagateWidget(self.labelCodeName[i])
-            self.propagateWidget(self.labelArrow[i])
+            self.proWidget(self.checkboxC[i])
+            self.proWidget(self.labelPlayerName[i])
+            self.proWidget(self.labelCodeName[i])
+            self.proWidget(self.labelArrow[i])
 
     def gridify(self):
         intFrameCols = 10

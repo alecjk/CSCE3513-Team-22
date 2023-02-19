@@ -9,9 +9,9 @@ class Menu(AppObject):
         self.destroy()
 
     def openSelf(self):
-        self.showSelf()
+        self.show()
         self.enableSelf()
 
     def closeSelf(self):
-        self.hideSelf()
+        self.hide()
         self.disableSelf()

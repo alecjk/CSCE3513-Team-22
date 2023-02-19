@@ -40,8 +40,7 @@ class App(tk.Frame):
         self.idRootAfter = self.root.after(3000, self.showSplashFor3Sec)
 
     def appMembers(self):
-        # App members
-        # I moved this into it's own function just for the sake of separating things and clarity. -Mason Woodward
+
         self.screen_Splash = Screen_Splash(self)
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
         self.screen_EditGame = Screen_EditGame(self)
@@ -54,9 +53,6 @@ class App(tk.Frame):
         self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EditGame, self.appState)
 
     def gridConfigure(self):
-        # Using grid instead of pack to allow frame-on-frame for
-        #    inserting player menu, and other similar menus
-        # Put this into it's own function for the sake of separation and clarity
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         self["bg"] = "#000000"
@@ -64,8 +60,6 @@ class App(tk.Frame):
         self.rowconfigure(0, weight=1)
         self.grid(column=0, row=0, sticky="NSEW")
 
-    # Size control - prevent widget from over-expanding outside grid cell
-    # This should be applied to most widgets
     def propagateWidget(self, widget):
         widget.pack_propagate(0)
         widget.grid_propagate(0)

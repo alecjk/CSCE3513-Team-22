@@ -2,7 +2,6 @@ import tkinter as tk
 from MVC.view.display import *
 
 
-
 class Menu_AddCodename(Menu):
     def __init__(self, tkRoot, mSubmitCodename):
         super().__init__(tkRoot)

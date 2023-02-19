@@ -47,7 +47,6 @@ class Database():
                 print(error)
 
     def connectUsingVenv(self):
-        # DATABASE_URL = os.environ['DATABASE_URL']
         DATABASE_URL = "postgres://afnatpikeuzgvb:b9929e6440f676fdb770c4962b288c7b6d284d74e670c87c0d064f8b11d9bc2d@ec2-34-195-163-197.compute-1.amazonaws.com:5432/dd30p75admf175"
         print(DATABASE_URL)
         self.conn = psycopg2.connect(DATABASE_URL, sslmode='require')

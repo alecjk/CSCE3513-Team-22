@@ -10,12 +10,9 @@ class App(tk.Frame):
         super().__init__(tkRoot)
         self.root = tkRoot
         self.root.configure(background="#000000")
-
-        # Root Window
         self.root.title("Entry Terminal")
         self.root.geometry("1200x800+0+0") 
-        self.root.minsize(1000, 700)  # Minimum size of window is 1200x700 before scrunching
-        # self.root.resizable(False, False)
+        self.root.minsize(1000, 700)
 
         print("Running for platform: {}".format(platform))
         if platform == "win32" or platform == "win64" or platform == "win82":
@@ -26,8 +23,6 @@ class App(tk.Frame):
 
         self.gridConfigure()
 
-        # Needed for bug with F10 key.
-        self.inputSim = keyboard.Controller()
 
         self.appMembers()
 
@@ -36,21 +31,20 @@ class App(tk.Frame):
         self.changeScreens(AppState.splash)
         self.startInputListener()
         self.root.update()
-        print("Waiting 3 seconds...")
-        self.idRootAfter = self.root.after(3000, self.showSplashFor3Sec)
+        print("Showing Splash Screen for 3 seconds...")
+        self.idRootAfter = self.root.after(3000, self.SplashFor3Secs)
 
     def appMembers(self):
-
         self.screen_Splash = Screen_Splash(self)
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
-        self.screen_EditGame = Screen_EditGame(self)
-        self.screen_EditGame.grid(column=0, row=0, sticky="NSEW")
+        self.screen_EntryTerminal = Screen_EditGame(self)
+        self.screen_EntryTerminal.grid(column=0, row=0, sticky="NSEW")
 
 
         self.appState = AppState()
         self.appState.setState(AppState.splash)
         self.inputListener = Listener()
-        self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EditGame, self.appState)
+        self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EntryTerminal, self.appState)
 
     def gridConfigure(self):
         self.root.columnconfigure(0, weight=1)
@@ -80,7 +74,7 @@ class App(tk.Frame):
         elif self.appState.getState() == AppState.S_PLAYGAME:
             self.unloadScreen_PlayGame()
         else:
-            print("Changing from unknown screen")
+            print("Switching from unknown screen")
 
     def loadScreen(self, nextScreen):
         if nextScreen == AppState.splash:
@@ -88,11 +82,11 @@ class App(tk.Frame):
             self.appState.setState(AppState.splash)
             self.loadScreen_Splash()
         elif nextScreen == AppState.entryTerminal:
-            print("Loading Edit Game...")
+            print("Loading Entry Terminal...")
             self.appState.setState(AppState.entryTerminal)
             self.loadScreen_EditGame()
         else:
-            print("Not a valid screen!")
+            print("No Screen")
 
     def loadScreen_Splash(self):
         self.screen = self.screen_Splash
@@ -102,22 +96,21 @@ class App(tk.Frame):
         self.screen.hide()
 
     def loadScreen_EditGame(self):
-        self.screen = self.screen_EditGame
+        self.screen = self.screen_EntryTerminal
         self.screen.show()
         self.screen.tkraise()
 
 
-    def showSplashFor3Sec(self):
-        print("3 seconds finished.")
+    def SplashFor3Secs(self):
         self.root.after_cancel(self.idRootAfter)
         self.changeScreens(AppState.entryTerminal)
 
     def closeDB(self):
-        if self.screen_EditGame == None:
+        if self.screen_EntryTerminal == None:
             print("Closing DB...")
             self.database.closeDB_NoCommit()
         else:
-            self.screen_EditGame.closeDB()
+            self.screen_EntryTerminal.closeDB()
 
     def startInputListener(self):
         self.inputListener.start()

@@ -19,7 +19,7 @@ class Database():
     DB_SQLITE = 2
 
     def __init__(self):
-        print("Initializing Database Object...")
+        print("Connecting to Database...")
         self.conn = None
         self.cursor = None
         self.intConnection = Database.DB_NO_CONN

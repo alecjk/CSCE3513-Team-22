@@ -1,7 +1,7 @@
 from MVC.app.ApplicationObj import *
 
 
-class Menu(AppObject):
+class Display(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
 

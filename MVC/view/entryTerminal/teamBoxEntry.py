@@ -12,14 +12,14 @@ class Frame_EditTeam(AppObject):
         self.strTeamName = "DEFAULT"
         self.intPlayerEntries = 15
         self.intArrowPos = self.NO_ARROW
-        # self.createSelf()
+
 
     def createSelf(self):
         strTeamName = self.strTeamName
-        strTeamHeadBG = "#444444"  # Mid gray
+        strTeamHeadBG = "#444444"
         intTeamHFontSize = 14
         strTeamColor = self.strTeamColor
-        strTextColor = "#FFFFFF"  # White
+        strTextColor = "#FFFFFF"
         strFontStyle = self.strDefaultFont
         intArrowFontSize = 18
         intCBoxFontSize = 14
@@ -70,7 +70,6 @@ class Frame_EditTeam(AppObject):
             self.labelArrow[i].grid(column=0, row=i + 1, sticky="E")
             self.checkboxC[i].grid(column=1, row=i + 1)
             self.labelID[i].grid(column=2, row=i + 1, columnspan=2, padx=2, sticky="EW")
-            # self.labelPlayerName[i].grid(column=3, row=i+1,columnspan=3,padx=2,sticky="EW")
             self.labelCodeName[i].grid(column=4, row=i + 1, columnspan=7, padx=(2, 10), sticky="EW")
 
     def setTeamColor(self, strColor):

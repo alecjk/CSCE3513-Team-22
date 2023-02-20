@@ -5,27 +5,23 @@ from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
 
 
-class Screen_EditGame(AppObject):
+class ScreenEntryTerminal(AppObject):
     INDEX_PINFO_ID = 0
     INDEX_PINFO_FNAME = 1
     INDEX_PINFO_LNAME = 2
     INDEX_PINFO_CODE = 3
     PLAYERSELECT = 0
     PLAYERNAME = 1
-    ASKUSEPREVCODE = 2
-    PLAYERCODENAME = 3
-    DELETEDBCONFIRM = 4
-    MOVETOPLAYCONFIRM = 5
+    PLAYERCODENAME = 2
+
 
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
-
         self.database = Database()
         self.database.openConnection()
-
         self.createScreen()
         self.gridify()
-        self.switchToMainMenu()
+        self.switchToDisplay()
         self.hide()
 
     def createScreen(self):
@@ -33,11 +29,11 @@ class Screen_EditGame(AppObject):
         self.createPageHeader()
         self.createTeamBoxes()
         self.createLabelFooter()
-        self.createMenuManager()
+        self.createDisplayManager()
 
     def createPageHeader(self):
-        strTextColor = "#5b5bc3"  # Light, purplish blue
-        strBGColor = "#000000"  # Black
+        strTextColor = "#5b5bc3"
+        strBGColor = "#000000"
         strFontStyle = self.strDefaultFont
         intFontSize = 25
 
@@ -50,37 +46,29 @@ class Screen_EditGame(AppObject):
         self.proWidget(self.frameTeamBoxes)
 
     def createLabelFooter(self):
-        strTextColor = "#000000"  # Black
-        strBGColor = "#d9d9d9"  # Very light gray, almost white
+        strTextColor = "#000000"
+        strBGColor = "#d9d9d9"
         strFontStyle = self.strDefaultFont
         strFontSize = 14
 
-        self.labelFooter = tk.Label(self,
-                                    text="<Ins> Insert Player or Edit <Del> Delete player",
-                                    fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
+        self.labelFooter = tk.Label(self, text="<Ins> Insert Player or Edit <Del> Delete player", fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
         self.proWidget(self.labelFooter)
 
-    def createMenuManager(self):
-        self.menuManager = entryTerminalController(self)
-        self.menuManager.setDatabase(self.database)
-        self.menuManager.setTeamBoxes(self.frameTeamBoxes)
-        self.menuManager.createSelf()
+    def createDisplayManager(self):
+        self.displayManager = entryTerminalController(self)
+        self.displayManager.setDatabase(self.database)
+        self.displayManager.setTeamBoxes(self.frameTeamBoxes)
+        self.displayManager.createSelf()
 
     def gridify(self):
-        # If either of below are edited, all widgets will need to be repositioned
-        # i.e: All calls to grid with row/column updated
         intMainFrameCols = 24
         intMainFrameRows = 42
-        # Position F Key - Row
-        intPosFKeyRow = 35
-        intFKeyRowSpan = 6
-        intFKeyColSpan = 2
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
         self.grid(column=0, row=0, sticky="NSEW")
-        self.menuManager.grid(column=6, row=8, columnspan=12, rowspan=20, sticky="NSEW")
-        self.menuManager.gridify()
+        self.displayManager.grid(column=6, row=8, columnspan=12, rowspan=20, sticky="NSEW")
+        self.displayManager.gridify()
 
         for i in range(intMainFrameCols):
             self.columnconfigure(i, weight=1, uniform="gridUniform")
@@ -95,8 +83,8 @@ class Screen_EditGame(AppObject):
 
         self.labelFooter.grid(column=0, row=41, columnspan=24, rowspan=1, sticky="NSEW")
 
-    def getMenuState(self):
-        return self.menuManager.getMenuState()
+    def getDisplayState(self):
+        return self.displayManager.getDisplayState()
 
     def getPlayerIDList(self):
         return self.frameTeamBoxes.getPlayerIDList()
@@ -116,35 +104,20 @@ class Screen_EditGame(AppObject):
     def getPlayerAtArrow(self):
         return self.frameTeamBoxes.getPlayerAtArrow()
 
-    def openDeleteDBConfirmMenu(self):
-        self.menuManager.show()
-        self.menuManager.openDeleteDBConfirmMenu()
-
-    def bind_ChangeToPlay(self, mFunc):
-        self.menuManager.bind_ChangeToPlay(mFunc)
-
     def openAddPlayerID(self):
-        self.menuManager.openAddPlayerID()
+        self.displayManager.openAddPlayerID()
 
     def openAddPlayerName(self):
-        self.menuManager.openAddPlayerName()
+        self.displayManager.openAddPlayerName()
 
-    def closeAllMenus(self):
-        self.menuManager.closeAllMenus()
+    def closeAllDisplays(self):
+        self.displayManager.closeAllDisplays()
 
     def openAddCodename(self):
-        self.menuManager.openAddCodename()
+        self.displayManager.openAddCodename()
 
-    def openMoveToPlayConfirm(self):
-        self.menuManager.show()
-        self.menuManager.openMoveToPlayConfirm()
-
-    def openDebugFillPlayers(self):
-        self.menuManager.show()
-        self.menuManager.openDebugFillPlayers()
-
-    def switchToMainMenu(self):
-        self.menuManager.switchToMainMenu()
+    def switchToDisplay(self):
+        self.displayManager.switchToMainDisplay()
 
     def addPlayer(self, strPlayer, strCode):
         self.frameTeamBoxes.addPlayer(strPlayer, strCode)
@@ -154,6 +127,4 @@ class Screen_EditGame(AppObject):
         self.frameTeamBoxes.deletePlayer()
         self.root.update()
 
-    def clearAllPlayers(self):
-        self.frameTeamBoxes.deleteAllPlayers()
-        self.root.update()
+

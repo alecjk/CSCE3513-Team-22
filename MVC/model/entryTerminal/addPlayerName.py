@@ -3,7 +3,7 @@ from tkinter import ttk
 from MVC.view.display import *
 
 
-class Menu_AddPlayerName(Menu):
+class Display_AddPlayerName(Display):
     def __init__(self, tkRoot, mSubmitPlayerName):
         super().__init__(tkRoot)
 
@@ -42,10 +42,10 @@ class Menu_AddPlayerName(Menu):
         self.labelInsPError["text"] = ""
 
     def addPlayerFromMenu(self, event=None):
-        intMinPFNameLen = 2  # Player Name
-        intMaxPFNameLen = 30  # Player Name
-        intMinPLNameLen = 2  # Code Name
-        intMaxPLNameLen = 30  # Code Name
+        intMinPFNameLen = 2
+        intMaxPFNameLen = 30
+        intMinPLNameLen = 2
+        intMaxPLNameLen = 30
 
         self.clearInsertMenuError()
         intLenPlayerFirstName = len(self.entryPlayerFirstName.get())
@@ -53,18 +53,17 @@ class Menu_AddPlayerName(Menu):
         boolFirstNameInvalid = intLenPlayerFirstName < intMinPFNameLen or intLenPlayerFirstName > intMaxPFNameLen or " " in self.entryPlayerFirstName.get() or not self.entryPlayerFirstName.get().isalnum()
         boolLastNameInvalid = intLenPlayerLastName < intMinPLNameLen or intLenPlayerLastName > intMaxPLNameLen or " " in self.entryPlayerLastName.get() or not self.entryPlayerLastName.get().isalnum()
         if boolFirstNameInvalid:
-            self.showInsertMenuError("First name must be between \n2 - 30 alphanumeric characters and no spaces!")
+            self.showInsertMenuError("First name must be between \n4 - 48 characters")
         if boolLastNameInvalid:
-            self.showInsertMenuError("Last name must be between \n2 - 30 alphanumeric characters, and no spaces!")
+            self.showInsertMenuError("First name must be between \n4 - 48 characters")
         if not boolFirstNameInvalid and not boolLastNameInvalid:
             self.clearInsertMenuError()
             self.methodSubmitPlayerName(self.entryPlayerFirstName.get(), self.entryPlayerLastName.get())
 
     def createSelf(self):
-        strBorderColor = "#5b5bc3"
         strBGColor = "#000000"
-        strTextcolorError = "#FF0000"  # True Red
-        strTextcolorMain = "#FFFFFF"  # Full White
+        strTextcolorError = "#FF0000"
+        strTextcolorMain = "#FFFFFF"
         strFont = self.strDefaultFont
         intTextsizeHead = 20
         intTextsizeError = 14
@@ -89,9 +88,6 @@ class Menu_AddPlayerName(Menu):
                                             fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
         self.entryPlayerLastName = tk.Entry(self.frameInsPInterior,
                                             state="disabled", font=(strFont, intTextsizeMain))
-        self.labelHint = tk.Label(self.frameInsPInterior,
-                                  text="Tab or click to switch between boxes\nClick submit to insert player\nPress Esc to cancel",
-                                  fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeHint))
         self.buttonSubmit = tk.Button(self.frameInsPInterior,
                                       text="Submit",
                                       command=self.addPlayerFromMenu,
@@ -117,5 +113,4 @@ class Menu_AddPlayerName(Menu):
         self.entryPlayerFirstName.grid(column=4, row=4, columnspan=6, rowspan=2, sticky="SEW")
         self.labelPlayerLastName.grid(column=0, row=6, columnspan=4, rowspan=2, sticky="SEW")
         self.entryPlayerLastName.grid(column=4, row=6, columnspan=6, rowspan=2, sticky="SEW")
-        self.labelHint.grid(column=0, row=9, rowspan=3, columnspan=8, padx=10, sticky="NSW")
         self.buttonSubmit.grid(column=7, row=9, rowspan=2, columnspan=2, sticky="NSEW")

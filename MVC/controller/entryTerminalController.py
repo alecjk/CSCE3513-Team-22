@@ -12,18 +12,12 @@ class entryTerminalController(AppObject):
     INDEX_PLAYER_CODE = 3
     PLAYERSELECT = 0
     PLAYERNAME = 1
-    ASKUSEPREVCODE = 2
-    PLAYERCODENAME = 3
-    DELETEDBCONFIRM = 4
-    MOVETOPLAYCONFIRM = 5
-    ERRORNEEDPLAYERS = 6
-    DEBUGFILLPLAYERS = 7
-    PLAYERID = 8
+    PLAYERCODENAME = 2
+    PLAYERID = 3
 
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
-
-        self.intMenu = self.PLAYERSELECT
+        self.intDisplay = self.PLAYERSELECT
         self.listPlayerInfo = [0, "", "", ""]
 
     def setDatabase(self, db):
@@ -33,241 +27,148 @@ class entryTerminalController(AppObject):
         self.frameTeamBoxes = frameTeamBoxes
 
     def createSelf(self):
-        self.createAddPlayerIDMenu()
-        self.createAddPlayerMenu()
-        self.createAddCodenameMenu()
+        self.createAddPlayerIDDisplay()
+        self.createAddPlayerDisplay()
+        self.createAddCodenameDisplay()
 
-    def createAddPlayerIDMenu(self):
-        self.menuAddPlayerID = Menu_SingleEntryBox(self)
-        self.menuAddPlayerID.setTitle("Enter Player ID")
-        self.menuAddPlayerID.setInputTitleText("Player ID: ")
-        self.menuAddPlayerID.setHintText(
-            "Enter an ID to search/retrieve or\nto create a new player if not\nfound in database.")
-        self.menuAddPlayerID.bindSubmit(self.submit_PlayerID)
-        self.menuAddPlayerID.closeSelf()
+    def createAddPlayerIDDisplay(self):
+        self.displayAddPlayerID = Display_SingleEntryBox(self)
+        self.displayAddPlayerID.setTitle("Enter Player ID")
+        self.displayAddPlayerID.setInputTitleText("Player ID: ")
+        self.displayAddPlayerID.bindSubmit(self.submit_PlayerID)
+        self.displayAddPlayerID.closeSelf()
 
-    def createAddPlayerMenu(self):
-        self.menuAddPlayerName = Menu_AddPlayerName(self, self.submitPlayerName)
-        self.menuAddPlayerName.closeSelf()
+    def createAddPlayerDisplay(self):
+        self.displayAddPlayerName = Display_AddPlayerName(self, self.submitPlayerName)
+        self.displayAddPlayerName.closeSelf()
 
-    def createAddCodenameMenu(self):
-        self.menuAddCodename = Menu_AddCodename(self, self.submitCodeName)
-        self.menuAddCodename.closeSelf()
+    def createAddCodenameDisplay(self):
+        self.displayAddCodename = Display_AddCodename(self, self.submitCodeName)
+        self.displayAddCodename.closeSelf()
 
     def gridify(self):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
-        self.menuAddPlayerID.grid(column=0, row=0, sticky="NSEW")
-        self.menuAddPlayerID.gridify()
-        self.menuAddPlayerName.grid(column=0, row=0, sticky="NSEW")
-        self.menuAddPlayerName.gridify()
-        self.menuAddCodename.grid(column=0, row=0, sticky="NSEW")
-        self.menuAddCodename.gridify()
+        self.displayAddPlayerID.grid(column=0, row=0, sticky="NSEW")
+        self.displayAddPlayerID.gridify()
+        self.displayAddPlayerName.grid(column=0, row=0, sticky="NSEW")
+        self.displayAddPlayerName.gridify()
+        self.displayAddCodename.grid(column=0, row=0, sticky="NSEW")
+        self.displayAddCodename.gridify()
 
-    def openDeleteDBConfirmMenu(self):
-        self.intMenu = self.DELETEDBCONFIRM
-        self.menuDeleteDBConfirm.openSelf()
 
     def openAddPlayerID(self):
         self.show()
-        self.intMenu = self.PLAYERID
-        self.menuAddPlayerID.openSelf()
-        self.menuAddPlayerID.setInputEntryText(self.frameTeamBoxes.getPlayerIDAtArrow())
-        self.root.update()  # keep
+        self.intDisplay = self.PLAYERID
+        self.displayAddPlayerID.openSelf()
+        self.displayAddPlayerID.setInputEntryText(self.frameTeamBoxes.getPlayerIDAtArrow())
+        self.root.update()
 
     def openAddPlayerName(self):
         self.show()
-        self.intMenu = self.PLAYERNAME  # keep
-        listPlayerAtArrow = self.getPlayerAtArrow()  # keep
-        self.menuAddPlayerName.setPlayerName(listPlayerAtArrow[0],
-                                             listPlayerAtArrow[1])
-        self.menuAddPlayerName.openSelf()
-        self.root.update()  # keep
+        self.intDisplay = self.PLAYERNAME
+        listPlayerAtArrow = self.getPlayerAtArrow()
+        self.displayAddPlayerName.setPlayerName(listPlayerAtArrow[0],
+                                                listPlayerAtArrow[1])
+        self.displayAddPlayerName.openSelf()
+        self.root.update()
 
     def openAddCodename(self):
-        self.intMenu = self.PLAYERCODENAME  # keep
-        self.menuAddCodename.openSelf()
-        self.root.update()  # keep
-
-    def openMoveToPlayConfirm(self):
-        self.show()
-        self.intMenu = self.MOVETOPLAYCONFIRM
-        self.menuMoveToPlayConfirm.openSelf()
+        self.intDisplay = self.PLAYERCODENAME
+        self.displayAddCodename.openSelf()
         self.root.update()
 
-    def openErrorNeedPlayers(self):
-        self.intMenu = self.ERRORNEEDPLAYERS
-        self.menuErrorNeedPlayers.openSelf()
-        self.root.update()
 
-    def openDebugFillPlayers(self):
-        self.intMenu = self.DEBUGFILLPLAYERS
-        self.menuDebugFillPlayers.openSelf()
-        self.root.update()
-
-    def switchToMainMenu(self):
-        self.intMenu = self.PLAYERSELECT  # keep
+    def switchToMainDisplay(self):
+        self.intDisplay = self.PLAYERSELECT
         self.frameTeamBoxes.tkraise()
-        self.root.update()  # keep
+        self.root.update()
 
-    def closeAllMenus(self):
-        self.menuAddPlayerID.closeSelf()
-        self.menuAddPlayerName.closeSelf()
-        self.menuAddCodename.closeSelf()
-        self.switchToMainMenu()
+    def closeAllDisplays(self):
+        self.displayAddPlayerID.closeSelf()
+        self.displayAddPlayerName.closeSelf()
+        self.displayAddCodename.closeSelf()
+        self.switchToMainDisplay()
 
     def closeAddPlayerID(self):
-        self.menuAddPlayerID.closeSelf()
-        self.switchToMainMenu()
+        self.displayAddPlayerID.closeSelf()
+        self.switchToMainDisplay()
 
     def closeAddCodename(self):
-        self.menuAddCodename.closeSelf()
-        self.switchToMainMenu()
-
-    def closeUsePrevCodename(self):
-        self.menuUsePrevCodename.closeSelf()
-        self.switchToMainMenu()
+        self.displayAddCodename.closeSelf()
+        self.switchToMainDisplay()
 
     def closeAddPlayerName(self):
-        self.menuAddPlayerName.closeSelf()
-        self.switchToMainMenu()
+        self.displayAddPlayerName.closeSelf()
+        self.switchToMainDisplay()
 
     def closeInsPlayerWithoutSave(self):
-        self.menuAddPlayerName.closeSelf()
-        self.menuAddCodename.closeSelf()
-        self.switchToMainMenu()
+        self.displayAddPlayerName.closeSelf()
+        self.displayAddCodename.closeSelf()
+        self.switchToMainDisplay()
 
-    def closeDebugFillPlayers(self):
-        self.menuDebugFillPlayers.closeSelf()
-        self.switchToMainMenu()
 
-    def getMenuState(self):
-        return self.intMenu
-
-    def bind_ChangeToPlay(self, mFunc):
-        self.methodChangeToPlay = mFunc
-
-    def submitYes_UsePrevCodename(self):
-        self.menuUsePrevCodename.closeSelf()
-        strPlayerName = self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] + " " + self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME]
-        if len(strPlayerName) <= 1:
-            strPlayerName = "(Left blank)"
-        self.addPlayer(self.listPlayerInfo[self.INDEX_PLAYER_ID],
-                       strPlayerName,
-                       self.listPlayerInfo[self.INDEX_PLAYER_CODE])
-        self.switchToMainMenu()
-
-    def submitNo_UsePrevCodename(self):
-        self.intMenu = self.PLAYERCODENAME
-        self.menuUsePrevCodename.closeSelf()
-        self.menuAddCodename.openSelf()
-        self.menuAddCodename.setInputEntryText(self.listPlayerInfo[self.INDEX_PLAYER_CODE])
-
-    def submitYes_DeleteDB(self):
-        self.menuDeleteDBConfirm.closeSelf()
-        print("Deleting all rows in DB...")
-        self.database.deleteAllRows()
-        self.database.commit()
-        rows = self.database.getAllRows()
-        print(rows)
-        self.clearAllPlayers()
-        self.switchToMainMenu()
-
-    def submitNo_DeleteDB(self):
-        self.menuDeleteDBConfirm.closeSelf()
-        self.switchToMainMenu()
-
-    def submitYes_MoveToPlay(self):
-        listPlayerCount = self.frameTeamBoxes.getPlayerCount()
-        if listPlayerCount[0] >= 1 and listPlayerCount[1] >= 1:
-            self.intMenu = self.PLAYERSELECT
-            self.menuMoveToPlayConfirm.closeSelf()
-            self.methodChangeToPlay()
-        else:
-            self.menuMoveToPlayConfirm.closeSelf()
-            self.openErrorNeedPlayers()
-
-    def submitNo_MoveToPlay(self):
-        self.menuMoveToPlayConfirm.closeSelf()
-        self.switchToMainMenu()
-
-    def submitOk_NeedPlayers(self):
-        self.menuErrorNeedPlayers.closeSelf()
-        self.switchToMainMenu()
-
-    def submitYes_FillPlayers(self):
-        self.closeDebugFillPlayers()
-        self.debug_FillAllPlayers()
-
-    def submitNo_FillPlayers(self):
-        self.closeDebugFillPlayers()
+    def getDisplayState(self):
+        return self.intDisplay
 
     def submit_PlayerID(self):
-        strID = self.menuAddPlayerID.getInputEntryText()
+        strID = self.displayAddPlayerID.getInputEntryText()
         try:
             intID = 0
             if strID.isdigit():
                 intID = int(strID)
             strPlayerIDAtArrow = self.frameTeamBoxes.getPlayerIDAtArrow()
             if not strID.isdigit():
-                self.menuAddPlayerID.setError(
-                    "ID is not a positive integer\n and less than 100,000!\nPlease enter a valid positive integer.",
+                self.displayAddPlayerID.setError(
+                    "ID needs to be positive integer\n and less than 100,000",
                     boolOverwrite=True)
             elif intID >= 100000:
-                self.menuAddPlayerID.setError("ID must be less than 100,000!", boolOverwrite=True)
+                self.displayAddPlayerID.setError("ID must be less than 100,000!", boolOverwrite=True)
             elif not self.frameTeamBoxes.isIDAlreadyEntered(intID) or strPlayerIDAtArrow == strID:
-                self.menuAddPlayerID.closeSelf()
+                self.displayAddPlayerID.closeSelf()
                 self.listPlayerInfo[self.INDEX_PLAYER_ID] = intID
                 # Check DB for ID
                 playerRow = self.database.findId(self.listPlayerInfo[self.INDEX_PLAYER_ID])
                 print(playerRow)
                 if len(playerRow) < 1:
                     print("Player not found")
-                    self.intMenu = self.PLAYERCODENAME
+                    self.intDisplay = self.PLAYERCODENAME
                     self.listPlayerInfo[self.INDEX_PLAYER_ID] = intID
-                    self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = "(blank)"
-                    self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = "(blank)"
-                    self.menuAddCodename.openSelf()
+                    self.displayAddPlayerName.openSelf()
                 else:
-                    player = playerRow[0]  # First occurrence, if somehow multiple entries
-                    self.intMenu = self.ASKUSEPREVCODE
-                    self.menuUsePrevCodename.setCodename(player[self.INDEX_PLAYER_CODE])
-                    self.menuUsePrevCodename.openSelf()
+                    player = playerRow[0]
                     self.listPlayerInfo[self.INDEX_PLAYER_ID] = player[self.INDEX_PLAYER_ID]
                     self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = player[self.INDEX_PLAYER_FIRST_NAME]
                     self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = player[self.INDEX_PLAYER_LAST_NAME]
                     self.listPlayerInfo[self.INDEX_PLAYER_CODE] = player[self.INDEX_PLAYER_CODE]
             else:
-                self.menuAddPlayerID.setError("ID already entered for this game!\nPlease enter another ID instead.",
-                                              boolOverwrite=True)
+                self.displayAddPlayerID.setError("ID already entered for this game",
+                                                 boolOverwrite=True)
         except (Exception) as error:
             print(error)
-            self.closeAllMenus()
+            self.closeAllDisplays()
 
     def submitPlayerName(self, strFirstName, strLastName):
-        self.menuAddPlayerName.closeSelf()
+        self.displayAddPlayerName.closeSelf()
         self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] = strFirstName
         self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME] = strLastName
         # Check DB for name
         playerRow = self.database.findPlayerByName(strFirstName, strLastName)
         if len(playerRow) < 1:
             print("Player not found")
-            self.intMenu = self.PLAYERCODENAME
-            self.menuAddCodename.openSelf()
+            self.intDisplay = self.PLAYERCODENAME
+            self.displayAddCodename.openSelf()
         else:
-            player = playerRow[0]  # First occurrence, if somehow multiple entries
+            player = playerRow[0]
             print(player)
-            self.intMenu = self.ASKUSEPREVCODE
-            self.menuUsePrevCodename.setCodename(player[self.INDEX_PLAYER_CODE])
-            self.menuUsePrevCodename.openSelf()
             self.listPlayerInfo[self.INDEX_PLAYER_ID] = player[self.INDEX_PLAYER_ID]
             self.listPlayerInfo[self.INDEX_PLAYER_CODE] = player[self.INDEX_PLAYER_CODE]
 
     def submitCodeName(self, strCodeName):
         self.listPlayerInfo[3] = strCodeName
-        self.menuAddCodename.closeSelf()
+        self.displayAddCodename.closeSelf()
         print(self.listPlayerInfo)
-        if self.listPlayerInfo[self.INDEX_PLAYER_ID] == -1:  # should never occur - quick-change to remove functionality
+        if self.listPlayerInfo[self.INDEX_PLAYER_ID] == -1:
             row = self.database.getLastId()
             id = 0
             if len(row) == 0:
@@ -287,14 +188,14 @@ class entryTerminalController(AppObject):
                 self.database.insertPlayer(self.listPlayerInfo)
                 self.database.commit()
         rows = self.database.getAllRows()
-        # print(rows)
+
         strPlayerName = self.listPlayerInfo[self.INDEX_PLAYER_FIRST_NAME] + " " + self.listPlayerInfo[self.INDEX_PLAYER_LAST_NAME]
         if len(strPlayerName) <= 1:
             strPlayerName = "(Left blank)"
         self.addPlayer(self.listPlayerInfo[self.INDEX_PLAYER_ID],
                        strPlayerName,
                        self.listPlayerInfo[self.INDEX_PLAYER_CODE])
-        self.switchToMainMenu()
+        self.switchToMainDisplay()
 
     def getPlayerAtArrow(self):
         return self.frameTeamBoxes.getPlayerAtArrow()

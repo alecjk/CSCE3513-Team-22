@@ -2,7 +2,7 @@ import tkinter as tk
 from MVC.view.display import *
 
 
-class Menu_SingleEntryBox(Menu):
+class Display_SingleEntryBox(Display):
     def __init__(self, tkRoot, methodSubmit=None):
         super().__init__(tkRoot)
 
@@ -59,10 +59,9 @@ class Menu_SingleEntryBox(Menu):
         self.methodSubmit()
 
     def createSelf(self):
-        strBorderColor = "#5b5bc3"
         strBGColor = "#000000"
-        strTextcolorError = "#FF0000"  # True Red
-        strTextcolorMain = "#FFFFFF"  # Full White
+        strTextcolorError = "#FF0000"
+        strTextcolorMain = "#FFFFFF"
         strFont = self.strDefaultFont
         intTextsizeHead = 20
         intTextsizeError = 14
@@ -95,7 +94,6 @@ class Menu_SingleEntryBox(Menu):
         intBorderSize = 10
         self.frameInterior.pack(side="top", fill="both", expand=True,
                                 padx=intBorderSize, pady=intBorderSize)
-
         intFrameInsPCols = 12
         intFrameInsPRows = 12
 
@@ -107,5 +105,4 @@ class Menu_SingleEntryBox(Menu):
         self.labelError.grid(column=0, row=2, columnspan=10, rowspan=2, sticky="NEW")
         self.labelInputTitle.grid(column=0, row=4, columnspan=4, rowspan=2, sticky="SEW")
         self.entryInputEntry.grid(column=4, row=4, columnspan=6, rowspan=2, sticky="SEW")
-        self.labelHint.grid(column=0, row=9, rowspan=3, columnspan=8, padx=10, sticky="NSW")
         self.buttonSubmit.grid(column=7, row=9, rowspan=2, columnspan=2, sticky="NSEW")

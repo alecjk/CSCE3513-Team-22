@@ -12,7 +12,7 @@ class AppObject(tk.Frame):
         widget.grid_propagate(False)
 
     def setDefaults(self):
-        self.strDefaultFont = "Arial"
+        self.strDefaultFont = "Serif"
         self["bg"] = "#000000"
 
     def hide(self):
@@ -21,3 +21,4 @@ class AppObject(tk.Frame):
     def show(self):
         self.grid()
         self.tkraise()
+

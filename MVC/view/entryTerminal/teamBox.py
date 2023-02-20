@@ -16,8 +16,8 @@ class Frame_TeamBoxes(AppObject):
         self.createSelf()
 
     def createSelf(self):
-        strRedTeamColor = "#330000"  # Dark Red
-        strGreenTeamColor = "#003300"  # Dark green
+        strRedTeamColor = "#330000"
+        strGreenTeamColor = "#003300"
 
         self.frameTeamRed = Frame_EditTeam(self)
         self.frameTeamRed["bg"] = strRedTeamColor
@@ -32,7 +32,7 @@ class Frame_TeamBoxes(AppObject):
 
     def createRedTeamBox(self):
         strTeamName = "TEAM RED"
-        strTeamColor = "#330000"  # Dark red
+        strTeamColor = "#330000"
 
         self.frameTeamRed.setTeamName(strTeamName)
         self.frameTeamRed.setTeamColor(strTeamColor)
@@ -41,7 +41,7 @@ class Frame_TeamBoxes(AppObject):
 
     def createGreenTeamBox(self):
         strTeamName = "TEAM GREEN"
-        strTeamColor = "#003300"  # Dark green
+        strTeamColor = "#003300"
 
         self.frameTeamGreen.setTeamName(strTeamName)
         self.frameTeamGreen.setTeamColor(strTeamColor)

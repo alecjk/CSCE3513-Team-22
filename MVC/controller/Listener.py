@@ -28,13 +28,13 @@ class Listener:
 
     def playerIns(self, key):
         if key == keyboard.Key.esc:
-            self.screenPlayerEntry.closeAllMenus()
+            self.screenPlayerEntry.closeAllDisplays()
 
     def on_press(self, key):
         if self.appState.getState() == AppState.entryTerminal:
-            if self.screenPlayerEntry.getMenuState() == self.screenPlayerEntry.PLAYERSELECT:
+            if self.screenPlayerEntry.getDisplayState() == self.screenPlayerEntry.PLAYERSELECT:
                 self.playerSelect(key)
-            elif self.screenPlayerEntry.getMenuState() != self.screenPlayerEntry.PLAYERSELECT:
+            elif self.screenPlayerEntry.getDisplayState() != self.screenPlayerEntry.PLAYERSELECT:
                 self.playerIns(key)
         elif self.appState.getState() == AppState.splash:
             pass

@@ -2,67 +2,65 @@ import tkinter as tk
 from MVC.view.display import *
 
 
-class Menu_AddCodename(Menu):
-    def __init__(self, tkRoot, mSubmitCodename):
+class Display_AddCodename(Display):
+    def __init__(self, tkRoot, dSubmitCodename):
         super().__init__(tkRoot)
 
-        self.methodSubmitCodename = mSubmitCodename
+        self.methodSubmitCodename = dSubmitCodename
         self.createSelf()
         self.gridify()
 
     def enableSelf(self):
-        self.entryPlayerCodeName["state"] = "normal"
-        self.entryPlayerCodeName.insert(0, "")
-        self.entryPlayerCodeName.focus_set()
-        self.entryPlayerCodeName.bind("<Return>", self.addPlayerFromMenu)
-        self.buttonSubmit["state"] = "normal"
-        self.buttonSubmit.bind("<Return>", self.addPlayerFromMenu)
+        self.entryCodeName["state"] = "normal"
+        self.entryCodeName.insert(0, "")
+        self.entryCodeName.focus_set()
+        self.entryCodeName.bind("<Return>", self.addPlayerFromDisplay)
+        self.submitButton["state"] = "normal"
+        self.submitButton.bind("<Return>", self.addPlayerFromDisplay)
 
     def disableSelf(self):
-        self.entryPlayerCodeName.delete(0, tk.END)
-        self.entryPlayerCodeName["state"] = "disabled"
-        self.entryPlayerCodeName.unbind("<Return>")
-        self.buttonSubmit["state"] = "disabled"
-        self.buttonSubmit.unbind("<Return>")
-        self.clearInsertMenuError()
+        self.entryCodeName.delete(0, tk.END)
+        self.entryCodeName["state"] = "disabled"
+        self.entryCodeName.unbind("<Return>")
+        self.submitButton["state"] = "disabled"
+        self.submitButton.unbind("<Return>")
+        self.clearInsertDisplayError()
 
     def setInputEntryText(self, strInput):
-        self.entryPlayerCodeName.delete(0, tk.END)
-        self.entryPlayerCodeName.insert(0, strInput)
+        self.entryCodeName.delete(0, tk.END)
+        self.entryCodeName.insert(0, strInput)
 
-    def showInsertMenuError(self, text):
+    def showInsertDisplayError(self, text):
         if len(self.labelInsPError["text"]) > 0:
             self.labelInsPError["text"] = self.labelInsPError["text"] + "\nError: " + text
         else:
             self.labelInsPError["text"] = "Error: " + text
 
-    def clearInsertMenuError(self):
+    def clearInsertDisplayError(self):
         self.labelInsPError["text"] = ""
 
-    def addPlayerFromMenu(self, event=None):
-        intMinCNameLen = 2  # Code Name
-        intMaxCNameLen = 30  # Code Name
+    def addPlayerFromDisplay(self, event=None):
+        intMinCNameLen = 4
+        intMaxCNameLen = 48
 
-        self.clearInsertMenuError()
-        intLenCodeName = len(self.entryPlayerCodeName.get())
-        boolCodeNameInvalid = intLenCodeName < intMinCNameLen or intLenCodeName > intMaxCNameLen or " " in self.entryPlayerCodeName.get() or not self.entryPlayerCodeName.get().isalnum()
+        self.clearInsertDisplayError()
+        intLenCodeName = len(self.entryCodeName.get())
+        boolCodeNameInvalid = intLenCodeName < intMinCNameLen or intLenCodeName > intMaxCNameLen or " " in self.entryCodeName.get() or not self.entryCodeName.get().isalnum()
         if boolCodeNameInvalid:
-            self.showInsertMenuError(
-                "Codename name must be \n between 2 - 30 alphanumeric characters \n and no spaces!")
+            self.showInsertDisplayError(
+                "Codename cannot be longer \n than 4 - 48 characters")
         if not boolCodeNameInvalid:
             print("Can add player!")
-            self.clearInsertMenuError()
-            self.methodSubmitCodename(self.entryPlayerCodeName.get())
+            self.clearInsertDisplayError()
+            self.methodSubmitCodename(self.entryCodeName.get())
 
     def createSelf(self):
-        strBorderColor = "#5b5bc3"
         strBGColor = "#000000"
-        strTextcolorError = "#FF0000"  # True Red
-        strTextcolorMain = "#FFFFFF"  # Full White
+        strTextcolorError = "#FF0000"
+        strTextcolorMain = "#FFFFFF"
         strFont = self.strDefaultFont
         intTextsizeHead = 20
         intTextsizeError = 14
-        intTextsizeHint = 15
         intTextsizeMain = 16
 
         self.proWidget(self)
@@ -76,25 +74,21 @@ class Menu_AddCodename(Menu):
         self.labelPlayerCodeName = tk.Label(self.frameInsPInterior,
                                             text="Player Code Name:",
                                             fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
-        self.entryPlayerCodeName = tk.Entry(self.frameInsPInterior,
-                                            state="disabled", font=(strFont, intTextsizeMain))
-        self.labelHint = tk.Label(self.frameInsPInterior,
-                                  text="Tab or click to switch between boxes\nClick submit to insert player\nPress Esc to cancel",
-                                  fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeHint))
-        self.buttonSubmit = tk.Button(self.frameInsPInterior,
+        self.entryCodeName = tk.Entry(self.frameInsPInterior,
+                                      state="disabled", font=(strFont, intTextsizeMain))
+        self.submitButton = tk.Button(self.frameInsPInterior,
                                       text="Submit",
-                                      command=self.addPlayerFromMenu,
+                                      command=self.addPlayerFromDisplay,
                                       state="disabled",
                                       fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
-        self.buttonSubmit.bind("<Return>", self.addPlayerFromMenu)
+        self.submitButton.bind("<Return>", self.addPlayerFromDisplay)
 
     def gridify(self):
-        intBorderSize = 10
-        self.frameInsPInterior.pack(side="top", fill="both", expand=True,
-                                    padx=intBorderSize, pady=intBorderSize)
+        intBorderSize = 6
+        self.frameInsPInterior.pack(side="top", fill="both", expand=True, padx=intBorderSize, pady=intBorderSize)
 
-        intFrameInsPCols = 12
-        intFrameInsPRows = 12
+        intFrameInsPCols = 15
+        intFrameInsPRows = 15
 
         for i in range(intFrameInsPCols):
             self.frameInsPInterior.columnconfigure(i, weight=1, uniform="uniformIns")
@@ -103,6 +97,5 @@ class Menu_AddCodename(Menu):
         self.labelInsPHead.grid(column=0, row=0, columnspan=10, rowspan=2, sticky="NSEW")
         self.labelInsPError.grid(column=0, row=2, columnspan=10, rowspan=2, sticky="NEW")
         self.labelPlayerCodeName.grid(column=0, row=6, columnspan=4, rowspan=2, sticky="SEW")
-        self.entryPlayerCodeName.grid(column=4, row=6, columnspan=6, rowspan=2, sticky="SEW")
-        self.labelHint.grid(column=0, row=9, rowspan=3, columnspan=8, padx=10, sticky="NSW")
-        self.buttonSubmit.grid(column=7, row=9, rowspan=2, columnspan=2, sticky="NSEW")
+        self.entryCodeName.grid(column=4, row=6, columnspan=6, rowspan=2, sticky="SEW")
+        self.submitButton.grid(column=7, row=9, rowspan=2, columnspan=2, sticky="NSEW")

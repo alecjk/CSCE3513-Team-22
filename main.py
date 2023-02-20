@@ -14,7 +14,7 @@ class App(tk.Frame):
         self.root.geometry("1200x800+0+0") 
         self.root.minsize(1000, 700)
 
-        print("Running for platform: {}".format(platform))
+        print("Platform: {}".format(platform))
         if platform == "win32" or platform == "win64" or platform == "win82":
             self.root.state("zoomed")
         else:
@@ -37,7 +37,7 @@ class App(tk.Frame):
     def appMembers(self):
         self.screen_Splash = Screen_Splash(self)
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
-        self.screen_EntryTerminal = Screen_EditGame(self)
+        self.screen_EntryTerminal = ScreenEntryTerminal(self)
         self.screen_EntryTerminal.grid(column=0, row=0, sticky="NSEW")
 
 

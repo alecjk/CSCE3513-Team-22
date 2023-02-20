@@ -1,17 +1,16 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
-import export as export
 import psycopg2
 import sqlite3
-from supabase import create_client, Client
-import json
+from supabase import create_client
 
 
 
-#export <"SUPABASE_URL">=<"https://euvyjxtkzixoflcdcwof.supabase.co">
-#export SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE"
-url: str = os.environ.get("https://euvyjxtkzixoflcdcwof.supabase.co")
-key: str = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE")
-#supabase: Client = create_client(url, key)
+url = os.environ.get("https://euvyjxtkzixoflcdcwof.supabase.co")
+key = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE")
+supabase = create_client(url, key)
 
 class Database():
     DB_NO_CONN = 0

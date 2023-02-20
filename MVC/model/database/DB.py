@@ -1,16 +1,15 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 import psycopg2
 import sqlite3
 from supabase import create_client
 
+SUPABASE_URL = "https://euvyjxtkzixoflcdcwof.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3NTg5OTU0OCwiZXhwIjoxOTkxNDc1NTQ4fQ.a_VUtdmAJcIfZi4WLLS8jdK5nQiHqKOXCTsy5YBPSq8"
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+#data = supabase.table("Team22Lasertag").select("*").execute()
+#data = supabase.table("Team22Lasertag").insert({"code": "Beast", "firstname": "Trey", "lastname": "Hurlbut", "playerid": 2342}).execute()
 
-url = os.environ.get("https://euvyjxtkzixoflcdcwof.supabase.co")
-key = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE")
-supabase = create_client(url, key)
 
 class Database():
     DB_NO_CONN = 0
@@ -24,54 +23,6 @@ class Database():
         self.intConnection = Database.DB_NO_CONN
         self.strSelectedTable = "player"
 
-
-
-    def openConnection(self):
-        try:
-            self.connectUsingVenv()
-            print(self.conn)
-            self.cursor = self.conn.cursor()
-            print(self.cursor)
-            self.intConnection = Database.DB_SUPABASE
-        except (Exception, psycopg2.DatabaseError) as error:
-            print("Error:")
-            print(error)
-            try:
-                os.mkdir(os.path.relpath('db'))
-            except (Exception) as error:
-                print("Error:")
-                print(error)
-            strOSPath = os.path.relpath('db/database.db')
-            self.conn = sqlite3.connect(strOSPath)
-            print(self.conn)
-            self.cursor = self.conn.cursor()
-            print(self.cursor)
-            self.intConnection = Database.DB_SQLITE
-            try:
-                self.cursor.execute("""CREATE TABLE player (
-                        id INT,
-                        first_name VARCHAR(30),
-                        last_name VARCHAR(30),
-                        codename VARCHAR(30));""")
-            except (Exception) as error:
-                print("Error:")
-                print(error)
-
-    def connectUsingVenv(self):
-        DATABASE_URL = "postgres://afnatpikeuzgvb:b9929e6440f676fdb770c4962b288c7b6d284d74e670c87c0d064f8b11d9bc2d@ec2-34-195-163-197.compute-1.amazonaws.com:5432/dd30p75admf175"
-        print(DATABASE_URL)
-        self.conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
-    def connectUsingCode(self):
-        self.conn = psycopg2.connect(database="db_username",
-                                     host="db_host",
-                                     user="db_user",
-                                     password="db_pass",
-                                     port="db_port",
-                                     keepalives=1,
-                                     keepalives_idle=30,
-                                     keepalives_interval=10,
-                                     keepalives_count=5)
 
     def selectTable(self, strTableName):
         self.strSelectedTable = strTableName
@@ -166,11 +117,14 @@ class Database():
         else:
             print("Error: listPlayerInfo is incorrect size. Cannot add to DB")
 
+    def insertPlayer(self, listPlayerInfo):
+        supabase.table("Team22Lasertag").insert({"code": listPlayerInfo[3],
+                                                 "firstname": listPlayerInfo[1],
+                                                 "lastname": listPlayerInfo[2],
+                                                 "playerid": listPlayerInfo[0]}).execute()
+
     def deleteAllRows(self):
-        if self.cursor is not None:
-            self.cursor.execute("DELETE FROM {table};".format(table=self.strSelectedTable))
-        else:
-            pass
+        supabase.table("Team22Lasertag").delete().gte("playerid", -1).execute()
 
     def isPlayerInfoValid(self, listPlayerInfo):
         isListSizeValid = len(listPlayerInfo) == 4
@@ -212,21 +166,7 @@ class Database():
         else:
             return []
 
-    def insertPlayer(self, listPlayerInfo):
-        if self.isPlayerInfoValid(listPlayerInfo):
-            if self.cursor is not None:
-                if self.intConnection == Database.DB_SUPABASE:
-                    self.cursor.execute("""
-                    INSERT INTO {table} (id, first_name, last_name, codename) VALUES (%s, %s, %s, %s);""".format(
-                        table=self.strSelectedTable), listPlayerInfo)
-                else:
-                    self.cursor.execute("""
-                    INSERT INTO {table} (id, first_name, last_name, codename) VALUES (?, ?, ?, ?);""".format(
-                        table=self.strSelectedTable), listPlayerInfo)
-            else:
-                pass
-        else:
-            print("Error: listPlayerInfo is incorrect size. Cannot add to DB")
+
 
     def commit(self):
         if self.conn is not None:

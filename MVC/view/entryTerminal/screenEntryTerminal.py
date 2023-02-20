@@ -18,7 +18,6 @@ class ScreenEntryTerminal(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         self.database = Database()
-        self.database.openConnection()
         self.createScreen()
         self.gridify()
         self.switchToDisplay()
@@ -94,6 +93,7 @@ class ScreenEntryTerminal(AppObject):
 
     def closeDB(self):
         print("Closing DB...")
+        self.database.deleteAllRows()
         self.database.closeDB_NoCommit()
 
     def moveArrow(self, intOffsetX, intOffsetY):

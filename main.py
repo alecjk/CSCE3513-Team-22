@@ -108,6 +108,7 @@ class App(tk.Frame):
     def closeDB(self):
         if self.screen_EntryTerminal == None:
             print("Closing DB...")
+            self.database.deleteAllRows()
             self.database.closeDB_NoCommit()
         else:
             self.screen_EntryTerminal.closeDB()

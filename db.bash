@@ -1,0 +1,4 @@
+export <SUPABASE_URL>=<https://euvyjxtkzixoflcdcwof.supabase.co>
+
+SUPABASE_URL = https://euvyjxtkzixoflcdcwof.supabase.co
+SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1dnlqeHRreml4b2ZsY2Rjd29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4OTk1NDgsImV4cCI6MTk5MTQ3NTU0OH0.NYTDh3JIBneKYbQMKOGVUahdIJoZPQ86rxekrM6bLKE

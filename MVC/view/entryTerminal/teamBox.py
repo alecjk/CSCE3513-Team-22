@@ -48,6 +48,11 @@ class Frame_TeamBoxes(AppObject):
         self.frameTeamGreen.setPlayerEntries(self.intPlayerEntries)
         self.frameTeamGreen.createSelf()
 
+    def createStartGameButton(self):
+        strText = "START"
+
+        self.frameStartGameButton.set
+
     def gridify(self):
         intFrameCols = 2
         intFrameRows = 1

@@ -4,6 +4,7 @@ from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
+from MVC.view.entryTerminal.startGameButton import *
 
 
 class UI_EditGame(AppObject):
@@ -21,6 +22,7 @@ class UI_EditGame(AppObject):
         self.createTeamBoxes()
         self.createFKeys()
         self.createLabelFooter()
+        self.createStartGameButton()
 
     def createHeader(self):
         TextColor = "#5b5bc3"
@@ -44,9 +46,17 @@ class UI_EditGame(AppObject):
         self.proWidget(self.labelFooter)
 
 
+    def createStartGameButton(self):
+            self.startGameButton = Display_startGameButton(self)
+            self.proWidget(self.startGameButton)
+
     def gridify(self):
         intMainFrameCols = 24
         intMainFrameRows = 42
+
+        #Start button here
+        startButtonColumn = 12
+        startButtonRow = 30 
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)

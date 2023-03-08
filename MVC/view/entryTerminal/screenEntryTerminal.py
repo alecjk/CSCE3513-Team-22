@@ -3,6 +3,7 @@ from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
+from MVC.view.entryTerminal.startGameButton import *
 
 
 class ScreenEntryTerminal(AppObject):
@@ -29,6 +30,7 @@ class ScreenEntryTerminal(AppObject):
         self.createTeamBoxes()
         self.createLabelFooter()
         self.createDisplayManager()
+        self.createStartGameButton()
 
     def createPageHeader(self):
         strTextColor = "#5b5bc3"
@@ -52,6 +54,19 @@ class ScreenEntryTerminal(AppObject):
 
         self.labelFooter = tk.Label(self, text="<Ins> Insert Player or Edit <Del> Delete player", fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
         self.proWidget(self.labelFooter)
+
+    def createStartGameButton(self):
+        strTextColor = "#000000"
+        strBGColor = "#FFFFFF"
+        strFontStyle = self.strDefaultFont
+        strFontSize = 48
+
+        #self.startGameButton = tk.Button.Display_startGameButton(self)
+        #self.proWidget(self.startGameButton)
+
+        B = tk.Button(tk.Tk(), text ="Hello", command = print("WORKS"))
+
+
 
     def createDisplayManager(self):
         self.displayManager = entryTerminalController(self)
@@ -81,6 +96,7 @@ class ScreenEntryTerminal(AppObject):
         self.frameTeamBoxes.show()
 
         self.labelFooter.grid(column=0, row=41, columnspan=24, rowspan=1, sticky="NSEW")
+        #self.startGameButton.grid(column=0, row=38, columnspan=5, rowspan=100, sticky="NSEW")
 
     def getDisplayState(self):
         return self.displayManager.getDisplayState()

@@ -21,7 +21,7 @@ class App(tk.Frame):
             self.root.wm_attributes('-zoomed', 1)
         self.propagateWidget(self.root)
 
-        self.gridConfigure()
+        self.propagateWidget(self.root)
 
 
         self.appMembers()
@@ -33,14 +33,13 @@ class App(tk.Frame):
         self.root.update()
         print("Showing Splash Screen for 3 seconds...")
         self.idRootAfter = self.root.after(3000, self.SplashFor3Secs)
+        self.gridConfigure()
 
     def appMembers(self):
         self.screen_Splash = Screen_Splash(self)
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
         self.screen_EntryTerminal = ScreenEntryTerminal(self)
         self.screen_EntryTerminal.grid(column=0, row=0, sticky="NSEW")
-
-
         self.appState = AppState()
         self.appState.setState(AppState.splash)
         self.inputListener = Listener()

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
@@ -29,6 +30,24 @@ class ScreenEntryTerminal(AppObject):
         self.createTeamBoxes()
         self.createLabelFooter()
         self.createDisplayManager()
+        self.creatStartGameButton()
+
+    def startGame(self, event=None):
+        print('Works')
+
+
+    def creatStartGameButton(self):
+        strBGColor = "#28CA00"
+        strTextcolorMain = "#FFFFFF"
+        strFont = self.strDefaultFont
+        intTextsizeMain = 48
+
+        self.buttonSubmit = tk.Button(self,
+                                      text="Start Game",
+                                      command=self.startGame,
+                                      state="normal",
+                                      fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
+        self.buttonSubmit.bind("<Return>", self.startGame)
 
     def createPageHeader(self):
         strTextColor = "#5b5bc3"
@@ -79,7 +98,7 @@ class ScreenEntryTerminal(AppObject):
         self.frameTeamBoxes.grid(column=2, row=2, columnspan=20, rowspan=31, sticky="NSEW")
         self.frameTeamBoxes.gridify()
         self.frameTeamBoxes.show()
-
+        self.buttonSubmit.grid(column=10, row=35, columnspan=5, rowspan=4, sticky="NSEW")
         self.labelFooter.grid(column=0, row=41, columnspan=24, rowspan=1, sticky="NSEW")
 
     def getDisplayState(self):

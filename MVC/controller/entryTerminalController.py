@@ -84,6 +84,13 @@ class entryTerminalController(AppObject):
         self.frameTeamBoxes.tkraise()
         self.root.update()
 
+    def closeAllMenus(self):
+        self.displayAddPlayerID.closeSelf()
+        self.displayAddPlayerName.closeSelf()
+        self.displayAddCodename.closeSelf()
+        self.switchToMainDisplay()
+
+
     def closeAllDisplays(self):
         self.displayAddPlayerID.closeSelf()
         self.displayAddPlayerName.closeSelf()

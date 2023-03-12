@@ -16,25 +16,25 @@ class ScreenEntryTerminal(AppObject):
     PLAYERCODENAME = 2
 
 
-    def __init__(self, tkRoot):
+    def __init__(self, tkRoot, f):
         super().__init__(tkRoot)
         self.database = Database()
         self.createScreen()
         self.gridify()
+        self.switchToPlayAction = f
         self.switchToDisplay()
         self.hide()
 
     def createScreen(self):
-        self["bg"] = "#000000"
-        self.createPageHeader()
+        self["bg"] = "#063459"
+
         self.createTeamBoxes()
         self.createLabelFooter()
         self.createDisplayManager()
         self.creatStartGameButton()
 
-    def startGame(self, event=None):
-        print('Works')
-
+    def bind_StartGame(self):
+        self.switchToPlayAction()
 
     def creatStartGameButton(self):
         strBGColor = "#28CA00"
@@ -44,10 +44,10 @@ class ScreenEntryTerminal(AppObject):
 
         self.buttonSubmit = tk.Button(self,
                                       text="Start Game",
-                                      command=self.startGame,
+                                      command=self.bind_StartGame,
                                       state="normal",
                                       fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
-        self.buttonSubmit.bind("<Return>", self.startGame)
+        self.buttonSubmit.bind("<Return>", self.bind_StartGame)
 
     def createPageHeader(self):
         strTextColor = "#5b5bc3"
@@ -57,11 +57,11 @@ class ScreenEntryTerminal(AppObject):
 
         self.labelEditGame = tk.Label(self, text="Edit Current Game", fg=strTextColor, bg=strBGColor,
                                       font=(strFontStyle, intFontSize))
-        self.proWidget(self.labelEditGame)
+        self.propagateWidget(self.labelEditGame)
 
     def createTeamBoxes(self):
         self.frameTeamBoxes = Frame_TeamBoxes(self)
-        self.proWidget(self.frameTeamBoxes)
+        self.propagateWidget(self.frameTeamBoxes)
 
     def createLabelFooter(self):
         strTextColor = "#000000"
@@ -70,7 +70,7 @@ class ScreenEntryTerminal(AppObject):
         strFontSize = 14
 
         self.labelFooter = tk.Label(self, text="<Ins> Insert Player or Edit <Del> Delete player", fg=strTextColor, bg=strBGColor, font=(strFontStyle, strFontSize))
-        self.proWidget(self.labelFooter)
+        self.propagateWidget(self.labelFooter)
 
     def createDisplayManager(self):
         self.displayManager = entryTerminalController(self)
@@ -93,7 +93,7 @@ class ScreenEntryTerminal(AppObject):
         for i in range(intMainFrameRows):
             self.rowconfigure(i, weight=1, uniform="gridUniform")
 
-        self.labelEditGame.grid(column=0, row=0, columnspan=24, rowspan=2, sticky="SEW")
+
 
         self.frameTeamBoxes.grid(column=2, row=2, columnspan=20, rowspan=31, sticky="NSEW")
         self.frameTeamBoxes.gridify()
@@ -128,6 +128,9 @@ class ScreenEntryTerminal(AppObject):
 
     def openAddPlayerName(self):
         self.displayManager.openAddPlayerName()
+
+    def closeAllMenus(self):
+        self.displayManager.closeAllMenus()
 
     def closeAllDisplays(self):
         self.displayManager.closeAllDisplays()

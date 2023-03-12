@@ -7,7 +7,7 @@ class AppObject(tk.Frame):
         self.root = tkRoot
         self.setDefaults()
 
-    def proWidget(self, widget):
+    def propagateWidget(self, widget):
         widget.pack_propagate(False)
         widget.grid_propagate(False)
 

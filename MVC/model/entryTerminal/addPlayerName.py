@@ -70,7 +70,7 @@ class Display_AddPlayerName(Display):
         intTextsizeHint = 15
         intTextsizeMain = 16
 
-        self.proWidget(self)
+        self.propagateWidget(self)
         self.frameInsPInterior = tk.Frame(self, bg=strBGColor)
         self.labelInsPHead = tk.Label(self.frameInsPInterior,
                                       text="Insert Player",

@@ -3,6 +3,7 @@ from MVC.view.entryTerminal.screenEntryTerminal import *
 from MVC.view.splash.splash import *
 from MVC.app.ApplicationState import *
 from MVC.controller.Listener import *
+from MVC.view.playAction.screenPlayAction import *
 
 
 class App(tk.Frame):
@@ -38,12 +39,19 @@ class App(tk.Frame):
     def appMembers(self):
         self.screen_Splash = Screen_Splash(self)
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
-        self.screen_EntryTerminal = ScreenEntryTerminal(self)
+
+        self.screen_EntryTerminal = ScreenEntryTerminal(self, self.startGame)
+        #self.screen_EntryTerminal.bind_StartGame(self.startGame)
         self.screen_EntryTerminal.grid(column=0, row=0, sticky="NSEW")
+
+        self.screen_PlayAction = screen_PlayAction(self)
+        self.screen_PlayAction.bind_EndGame(self.endGame)
+        self.screen_PlayAction.grid(column=0, row=0, sticky="NSEW")
+
         self.appState = AppState()
         self.appState.setState(AppState.splash)
         self.inputListener = Listener()
-        self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EntryTerminal, self.appState)
+        self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EntryTerminal, self.screen_PlayAction, self.appState)
 
     def gridConfigure(self):
         self.root.columnconfigure(0, weight=1)
@@ -62,16 +70,26 @@ class App(tk.Frame):
         self.loadScreen(nextScreen)
         self.root.update()
 
+    def startGame(self):
+        self.screen_EntryTerminal.closeAllMenus()
+        self.changeScreens(AppState.playAction)
+        self.screen_PlayAction.startWaitTimer()
 
+    def endGame(self):
+        self.screen_PlayAction.closeAllMenus()
+        self.screen_PlayAction.resetGameTimer()
+        self.screen_PlayAction.clearGameAction()
+        self.screen_PlayAction.resetScoreboard()
+        self.changeScreens(AppState.entryTerminal)
 
 
     def unloadCurrentScreen(self):
         if self.appState.getState() == AppState.splash:
             self.unloadScreen_Splash()
         elif self.appState.getState() == AppState.entryTerminal:
-            self.unloadScreen_EditGame()
-        elif self.appState.getState() == AppState.S_PLAYGAME:
-            self.unloadScreen_PlayGame()
+            self.unloadScreen_EntryTerminal()
+        elif self.appState.getState() == AppState.playAction:
+            self.unloadScreen_PlayAction()
         else:
             print("Switching from unknown screen")
 
@@ -84,6 +102,10 @@ class App(tk.Frame):
             print("Loading Entry Terminal...")
             self.appState.setState(AppState.entryTerminal)
             self.loadScreen_EditGame()
+        elif nextScreen == AppState.playAction:
+            print("Loading Play Game...")
+            self.appState.setState(AppState.playAction)
+            self.loadScreen_PlayAction()
         else:
             print("No Screen")
 
@@ -99,6 +121,18 @@ class App(tk.Frame):
         self.screen.show()
         self.screen.tkraise()
 
+    def unloadScreen_EntryTerminal(self):
+        self.screen.hide()
+
+    def loadScreen_PlayAction(self):
+        self.screen = self.screen_PlayAction
+        listPlayers = self.screen_EntryTerminal.getPlayerList()
+        listPlayerIDs = self.screen_EntryTerminal.getPlayerIDList()
+        self.screen.setPlayersUsingList(listPlayers, listPlayerIDs)
+        self.screen.show()
+
+    def unloadScreen_PlayAction(self):
+        self.screen.hide()
 
     def SplashFor3Secs(self):
         self.root.after_cancel(self.idRootAfter)

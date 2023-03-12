@@ -38,7 +38,7 @@ class Frame_GameAction(AppObject):
         self["bg"] = strBGColor
         
         self.labelGameAction = tk.Label(self,
-            text="Current Game Action",
+            text="Game Play",
             fg = strGAColor, bg = strBGColor, font=(strFontGA, intTextsizeGA))
         self.propagateWidget(self.labelGameAction)
         

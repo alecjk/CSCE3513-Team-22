@@ -36,7 +36,7 @@ class Display_WaitUntilPlay(Display):
             fg = strTextcolorMain, bg=strBGColor, font=(strFont,intTextsizeMain))
             
     def resetToDefault(self):
-        self.labelHead["text"] = "Game beginning in..."
+        self.labelHead["text"] = "Starting in..."
         self.labelHead["fg"] = "#FFFFFF"
         self.labelTimer["fg"] = "#FFFFFF"
         self.labelTimer["font"] = (self.strDefaultFont, 32)

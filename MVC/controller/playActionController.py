@@ -32,8 +32,8 @@ class Screen_PlayGame(AppObject):
 		self.menuManager = PlayGame_MenuManager()
 		self.createScreen()
 		self.gridify()
-		self.showSelf()
-		self.hideSelf()
+		self.show()
+		self.hide()
 		
 	def createScreen(self):
 		self["bg"] = "#000000"

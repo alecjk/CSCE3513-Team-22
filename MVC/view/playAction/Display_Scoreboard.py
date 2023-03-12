@@ -3,14 +3,14 @@ from tkinter import ttk
 from MVC.app.ApplicationObj import *
 from MVC.view.playAction.Display_TeamScore import *
 
-class Frame_Scoreboard(AppObject):
+class Display_Scoreboard(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         
         self.createSelf()
         
     def createSelf(self):
-        self.frameTeamRed = Frame_TeamScore(self)
+        self.frameTeamRed = Display_TeamScore(self)
         self.frameTeamRed.setMaxTopPlayers(15)
         self.frameTeamRed.setTeamName("TEAM RED")
         self.frameTeamRed.setTeamColor("#ff6666")
@@ -18,7 +18,7 @@ class Frame_Scoreboard(AppObject):
         self.frameTeamRed.setTeamScoreFlashingColor("#ff0000")
         self.frameTeamRed.createSelf()
         self.propagateWidget(self.frameTeamRed)
-        self.frameTeamGreen = Frame_TeamScore(self)
+        self.frameTeamGreen = Display_TeamScore(self)
         self.frameTeamGreen.setMaxTopPlayers(15)
         self.frameTeamGreen.setTeamName("TEAM GREEN")
         self.frameTeamGreen.setTeamColor("#66ff66")

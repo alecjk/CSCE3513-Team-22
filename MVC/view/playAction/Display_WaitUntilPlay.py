@@ -3,7 +3,7 @@ from tkinter import ttk
 import time
 from MVC.view.display import *
 
-class Frame_WaitUntilPlay(Display):
+class Display_WaitUntilPlay(Display):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         

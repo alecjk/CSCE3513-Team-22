@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from MVC.app.ApplicationObj import *
 
-class Frame_GameAction(AppObject):
+class Display_GameAction(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         self.intMaxGARecords = 6

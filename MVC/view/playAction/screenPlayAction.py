@@ -47,11 +47,11 @@ class screen_PlayAction(AppObject):
                                         fg=strTextColor, bg=strBGColor, font=(strFont, intTextSize))
 
     def createGameboardFrame(self):
-        self.frameGameboard = Frame_GameBoard(self)
+        self.frameGameboard = Display_GameBoard(self)
         self.propagateWidget(self.frameGameboard)
 
     def createWaitUntilPlay(self):
-        self.frameWaitUntilPlay = Frame_WaitUntilPlay(self)
+        self.frameWaitUntilPlay = Display_WaitUntilPlay(self)
         self.frameWaitUntilPlay.bindMethodAfterFinished(self.startGameTimer)
         self.propagateWidget(self.frameWaitUntilPlay)
 

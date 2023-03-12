@@ -3,7 +3,7 @@ from tkinter import ttk
 import time
 from MVC.app.ApplicationObj import *
 
-class Frame_GameTimer(AppObject):
+class Display_GameTimer(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         self.boolIsTimerActive = False

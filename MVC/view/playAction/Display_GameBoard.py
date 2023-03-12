@@ -5,7 +5,7 @@ from MVC.view.playAction.Display_Scoreboard import *
 from MVC.view.playAction.Display_GameAction import *
 from MVC.view.playAction.Display_GameTimer import *
 
-class Frame_GameBoard(AppObject):
+class Display_GameBoard(AppObject):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
 
@@ -16,11 +16,11 @@ class Frame_GameBoard(AppObject):
     
         self["bg"] = strBorderColor
         
-        self.frameScoreboard = Frame_Scoreboard(self)
+        self.frameScoreboard = Display_Scoreboard(self)
         self.propagateWidget(self.frameScoreboard)
-        self.frameGameAction = Frame_GameAction(self)
+        self.frameGameAction = Display_GameAction(self)
         self.propagateWidget(self.frameGameAction)
-        self.frameGameTimer = Frame_GameTimer(self)
+        self.frameGameTimer = Display_GameTimer(self)
         self.propagateWidget(self.frameGameTimer)
         
     def setPlayersUsingList(self, listPlayers, listIntID=None):

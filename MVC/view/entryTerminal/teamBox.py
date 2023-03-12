@@ -7,24 +7,27 @@ class Frame_TeamBoxes(AppObject):
     INDEX_ENTRY = 1
     REDARROWPOS = 0
     GREENARROWPOS = 1
+    Green = "#255D1D"
+    Red = "#800F20"
+
 
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         self.intDefaultTextsize = 12
-        self.intPlayerEntries = 15
+        self.intPlayerEntries = 12
         self.listArrowPos = [0, 0]
         self.createSelf()
 
     def createSelf(self):
-        strRedTeamColor = "#330000"
-        strGreenTeamColor = "#003300"
+        strRedTeamColor = self.Red
+        strGreenTeamColor = self.Green
 
         self.frameTeamRed = Frame_EditTeam(self)
         self.frameTeamRed["bg"] = strRedTeamColor
         self.frameTeamGreen = Frame_EditTeam(self)
         self.frameTeamGreen["bg"] = strGreenTeamColor
-        self.proWidget(self.frameTeamRed)
-        self.proWidget(self.frameTeamGreen)
+        self.propagateWidget(self.frameTeamRed)
+        self.propagateWidget(self.frameTeamGreen)
 
         self.createRedTeamBox()
         self.createGreenTeamBox()
@@ -32,7 +35,7 @@ class Frame_TeamBoxes(AppObject):
 
     def createRedTeamBox(self):
         strTeamName = "TEAM RED"
-        strTeamColor = "#330000"
+        strTeamColor = self.Red
 
         self.frameTeamRed.setTeamName(strTeamName)
         self.frameTeamRed.setTeamColor(strTeamColor)
@@ -41,7 +44,7 @@ class Frame_TeamBoxes(AppObject):
 
     def createGreenTeamBox(self):
         strTeamName = "TEAM GREEN"
-        strTeamColor = "#003300"
+        strTeamColor = self.Green
 
         self.frameTeamGreen.setTeamName(strTeamName)
         self.frameTeamGreen.setTeamColor(strTeamColor)

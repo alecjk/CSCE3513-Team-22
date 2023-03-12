@@ -11,13 +11,15 @@ def on_release(key):
 class Listener:
     def __init__(self):
         self.appState = None
+        self.screenPlayAction = None
         self.screenPlayerEntry = None
         self.screenSplash = None
         self.listener = None
 
-    def combiningAppWithScreens(self, splash, playerEntry, appState):
+    def combiningAppWithScreens(self, splash, playerEntry, playAction ,appState):
         self.screenSplash = splash
         self.screenPlayerEntry = playerEntry
+        self.screenPlayAction = playAction
         self.appState = appState
 
     def start(self):

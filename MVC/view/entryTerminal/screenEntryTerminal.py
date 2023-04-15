@@ -4,8 +4,10 @@ from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
-from playsound import playsound
-
+#import threading
+#from playsound import playsound
+from asyncio import sleep
+from play_sounds import *
 
 
 
@@ -39,6 +41,16 @@ class ScreenEntryTerminal(AppObject):
 
     def bind_StartGame(self):
         self.switchToPlayAction()
+        missi = self.load_Msc()
+
+    async def load_Msc(self):
+        async with play_while_running_async(DEFAULT_SONG):
+            await sleep(60)
+        #threading.Thread(target=playsound, args=('D:/pythictestin2/resources/photon_tracks/Track01.mp3'), daemon=True).start()
+        #winsound.PlaySound('D:/pythictestin2/resources/photon_tracks/Track01.mp3', winsound.SND_ASYNC | winsound.SND_ALIAS )
+        #playsound('D:/pythictestin2/resources/photon_tracks/Track01.mp3', False)
+        print('stuff1')
+        
 
     def creatStartGameButton(self):
         strBGColor = "#28CA00"
@@ -152,5 +164,8 @@ class ScreenEntryTerminal(AppObject):
     def deletePlayer(self, event=None):
         self.frameTeamBoxes.deletePlayer()
         self.root.update()
+
+
+
 
 

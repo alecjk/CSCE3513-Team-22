@@ -41,17 +41,17 @@ class App(tk.Frame):
         self.screen_Splash.grid(column=0, row=0, sticky="NSEW")
 
         self.screen_EntryTerminal = ScreenEntryTerminal(self, self.startGame)
-        #self.screen_EntryTerminal.bind_StartGame(self.startGame)
         self.screen_EntryTerminal.grid(column=0, row=0, sticky="NSEW")
 
         self.screen_PlayAction = screen_PlayAction(self)
-        self.screen_PlayAction.bind_EndGame(self.endGame)
         self.screen_PlayAction.grid(column=0, row=0, sticky="NSEW")
 
         self.appState = AppState()
         self.appState.setState(AppState.splash)
         self.inputListener = Listener()
         self.inputListener.combiningAppWithScreens(self.screen_Splash, self.screen_EntryTerminal, self.screen_PlayAction, self.appState)
+        #self.playAudio()
+
 
     def gridConfigure(self):
         self.root.columnconfigure(0, weight=1)
@@ -82,6 +82,9 @@ class App(tk.Frame):
         self.screen_PlayAction.resetScoreboard()
         self.changeScreens(AppState.entryTerminal)
 
+
+    def playAudio(self):
+        playsound('resources/game_action.mp4')
 
     def unloadCurrentScreen(self):
         if self.appState.getState() == AppState.splash:

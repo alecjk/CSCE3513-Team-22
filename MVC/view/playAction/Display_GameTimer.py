@@ -87,7 +87,7 @@ class Display_GameTimer(AppObject):
     def hasTimerFinished(self):
         return self.hasTimerFinished
         
-    def startTimer(self, starttime=361.0): # 361 seconds = 6 minutes + 1 additional sec to show 6:00 clearly
+    def startTimer(self, starttime=361.0):
         if not self.boolIsTimerActive:
             self.floatTimeUntil = time.time() + starttime
             self.boolIsTimerActive = True

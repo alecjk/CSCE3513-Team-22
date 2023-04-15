@@ -1,6 +1,7 @@
 import tkinter as tk
 
 
+
 class AppObject(tk.Frame):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)

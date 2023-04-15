@@ -40,16 +40,16 @@ class Display_GameBoard(AppObject):
         
     def gridify(self):
         intBackgroundCols = 10
-        intBackgroundRows = 10
+        intBackgroundRows = 13
         
         for i in range(intBackgroundCols):
             self.columnconfigure(i,weight=1, uniform="gridUniform")
         for i in range(intBackgroundRows):
             self.rowconfigure(i,weight=1, uniform="gridUniform")
             
-        self.frameGameAction.grid(column=0, row=0, columnspan=10, rowspan=3, padx=2, pady=2, sticky="NSEW")
+        self.frameGameAction.grid(column=0, row=0, columnspan=10, rowspan=6, padx=2, pady=2, sticky="NSEW")
         self.frameGameAction.gridify()
-        self.frameScoreboard.grid(column=0, row=3, columnspan=10, rowspan=6, padx=2, pady=2, sticky="NSEW")
+        self.frameScoreboard.grid(column=0, row=6, columnspan=10, rowspan=9, padx=2, pady=2, sticky="NSEW")
         self.frameScoreboard.gridify()
-        self.frameGameTimer.grid(column=0, row=9, columnspan=10, rowspan=1, padx=2, pady=2, sticky="NSEW")
+        self.frameGameTimer.grid(column=0, row=12, columnspan=10, rowspan=1, padx=2, pady=2, sticky="NSEW")
         self.frameGameTimer.gridify()

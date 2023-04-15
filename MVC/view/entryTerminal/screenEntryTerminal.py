@@ -4,6 +4,9 @@ from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
+from playsound import playsound
+
+
 
 
 class ScreenEntryTerminal(AppObject):
@@ -32,6 +35,7 @@ class ScreenEntryTerminal(AppObject):
         self.createLabelFooter()
         self.createDisplayManager()
         self.creatStartGameButton()
+
 
     def bind_StartGame(self):
         self.switchToPlayAction()

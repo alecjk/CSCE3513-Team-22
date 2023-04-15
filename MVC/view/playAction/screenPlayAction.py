@@ -4,8 +4,8 @@ from tkinter import ttk
 from MVC.app.ApplicationObj import *
 from MVC.view.playAction.Display_GameBoard import *
 from MVC.view.playAction.Display_WaitUntilPlay import *
-#from MVC.view.playAction.TrafficGenerator import *
-#from lib.Network import *
+from MVC.model.playAction.trafficGenerator import *
+from MVC.model.playAction.network import *
 
 
 class screen_PlayAction(AppObject):
@@ -24,6 +24,11 @@ class screen_PlayAction(AppObject):
         self.listValidRedIDs = []
         self.listValidGreenIDs = []
 
+        self.network = Network()
+        self.trafficGenerator = trafficGenerator()
+        self.trafficGenerator.bindBroadcastingSocket(self.network.getReceivingSocket())
+
+        self.network.startThread()
 
         self.createScreen()
         self.gridify()
@@ -34,7 +39,33 @@ class screen_PlayAction(AppObject):
         self["bg"] = "#063459"
         self.createGameboardFrame()
         self.createWaitUntilPlay()
-        #self.createEndButton()
+        self.creatSimulateButton()
+
+    def bind_SimulateGame(self):
+        if self.isTrafficGeneratorRunning() is False:
+            self.startTrafficGenerator()
+
+    def isTrafficGeneratorRunning(self):
+        return self.trafficGenerator.isRunning()
+
+    def startTrafficGenerator(self):
+        self.trafficGenerator.startThread()
+
+    def endTrafficGenerator(self):
+        self.trafficGenerator.stopThread()
+
+    def creatSimulateButton(self):
+        strBGColor = "#28CA00"
+        strTextcolorMain = "#FFFFFF"
+        strFont = self.strDefaultFont
+        intTextsizeMain = 48
+
+        self.buttonSubmit = tk.Button(self,
+                                      text="Simulate Game",
+                                      command=self.bind_SimulateGame,
+                                      state="normal",
+                                      fg=strTextcolorMain, bg=strBGColor, font=(strFont, intTextsizeMain))
+        self.buttonSubmit.bind("<Return>", self.bind_SimulateGame)
 
     def createLabelScoreboard(self):
         strTextColor = "#5b5bc3"  # Light Blue
@@ -60,10 +91,7 @@ class screen_PlayAction(AppObject):
     def gridify(self):
         intMainFrameCols = 24
         intMainFrameRows = 40
-        # Position F Key - Row
-        intPosFKeyRow = 35
-        intFKeyRowSpan = 5
-        intFKeyColSpan = 2
+
 
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
@@ -76,7 +104,8 @@ class screen_PlayAction(AppObject):
         self.frameWaitUntilPlay.grid(column=6, row=8, columnspan=12, rowspan=20, sticky="NSEW")
         self.frameWaitUntilPlay.hide()
 
-        self.frameGameboard.grid(column=2, row=1, columnspan=20, rowspan=32, padx=2, pady=2, sticky="NSEW")
+        self.frameGameboard.grid(column=2, row=1, columnspan=20, rowspan=30, padx=2, pady=2, sticky="NSEW")
+        self.buttonSubmit.grid(column=10, row=35, columnspan=5, rowspan=2, sticky="NSEW")
         self.frameGameboard.gridify()
 
     def getMenuState(self):
@@ -84,40 +113,14 @@ class screen_PlayAction(AppObject):
 
     def closeAllMenus(self):
         self.endWaitTimer()
-        self.closeMoveToEditMenu()
 
-    def closeMoveToEditMenu(self):
-        self.menuMoveToEditConfirm.closeSelf()
-        if self.frameWaitUntilPlay.isCountActive() and self.frameWaitUntilPlay.isPaused():
-            self.intMenu = self.MENU_WAITSTART
-            self.frameWaitUntilPlay.unpauseCount()
-            self.frameWaitUntilPlay.show()
-        elif self.frameGameboard.frameGameTimer.isTimerPaused():
-            self.intMenu = self.MENU_MAIN
-            self.frameGameboard.frameGameTimer.unpauseTimer()
-            self.show()
-        else:
-            self.intMenu = self.MENU_MAIN
-        self.show()
-        self.updateScreen()
-
-    def openMoveToEditMenu(self):
-        self.intMenu = self.MENU_BACKTOEDIT
-        self.menuMoveToEditConfirm.openSelf()
-        if self.frameWaitUntilPlay.isCountActive() and not self.frameWaitUntilPlay.isPaused():
-            self.frameWaitUntilPlay.pauseCount()
-            intTimeRemaining = self.frameWaitUntilPlay.getTimeRemaining()
-            if intTimeRemaining < 0.0:
-                self.menuMoveToEditConfirm.setTimerPausedHead("0:00 (BEGIN)")
-            else:
-                self.menuMoveToEditConfirm.setTimerPausedHead(intTimeRemaining)
-        if self.frameGameboard.frameGameTimer.isTimerActive() and not self.frameGameboard.frameGameTimer.isTimerPaused():
-            self.frameGameboard.frameGameTimer.pauseTimer()
-            strFormattedTimeRemaining = self.frameGameboard.frameGameTimer.getFormattedTimeRemaining()
-            self.menuMoveToEditConfirm.setTimerPausedHead(strFormattedTimeRemaining)
-        self.root.update()
-
-
+    def updateHitEventByLastTrans(self):
+        if self.network.hasNewTransmission():
+            lastTransmission = self.network.getLastTransmission()
+            listID = lastTransmission.split(":")
+            self.updateHitEvent(int(listID[0]), int(listID[1]))
+            return True
+        return False
 
     def updateScreen(self):
         if self.frameGameboard.frameGameTimer.isTimerActive() and not self.frameGameboard.frameGameTimer.isTimerPaused():
@@ -147,9 +150,7 @@ class screen_PlayAction(AppObject):
             print("Both IDs from same color! Ignoring...")
         else:
             strPlayerFrom = self.frameGameboard.getCodenameFromID(intIDFrom, charFromColor)
-            # print("strPlayerFrom: {}".format(strPlayerFrom))
             strPlayerTo = self.frameGameboard.getCodenameFromID(intIDTo, charToColor)
-            # print("strPlayerTo: {}".format(strPlayerTo))
             self.frameGameboard.frameGameAction.pushEvent(
                 charFromColor, strPlayerFrom,
                 charToColor, strPlayerTo)
@@ -173,7 +174,8 @@ class screen_PlayAction(AppObject):
         listIntID = self.getGeneratedIDList()
         self.frameGameboard.setPlayersUsingList(listPlayers, listIDs)
         self.listOfListIntPlayerIDs = self.frameGameboard.getValidListIntID()
-
+        self.trafficGenerator.setIDList(self.listOfListIntPlayerIDs[0],
+                                        self.listOfListIntPlayerIDs[1])
 
     def setValidIDsFromScoreboard(self):
         self.listValidRedIDs = self.frameGameboard.frameScoreboard.getValidIDList_RedTeam()
@@ -186,11 +188,6 @@ class screen_PlayAction(AppObject):
             return (intID in self.listValidGreenIDs)
         else:
             return False
-
-
-
-
-
 
 
     def resetScoreboard(self):
@@ -223,9 +220,5 @@ class screen_PlayAction(AppObject):
     def bind_EndGame(self, method):
         self.methodMoveToEdit = method
 
-    def bindYes_MoveToEdit(self):
-        self.openMoveToEditMenu()
 
-    def bindNo_MoveToEdit(self):
-        self.closeMoveToEditMenu()
 

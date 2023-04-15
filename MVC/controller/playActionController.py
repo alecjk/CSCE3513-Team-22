@@ -2,10 +2,10 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from MVC.app.ApplicationObj import *
-from lib.playgame.PlayGame_UI import *
-from lib.playgame.PlayGame_MenuManager import *
-from lib.playgame.TrafficGenerator import *
-from lib.Network import *
+from MVC.model.playAction.trafficGenerator import *
+from MVC.model.playAction.network import *
+
+
 
 class Screen_PlayGame(AppObject):
 	MENU_MAIN = 0
@@ -24,12 +24,12 @@ class Screen_PlayGame(AppObject):
 		self.listValidGreenIDs = []
 		
 		self.network = Network()
-		self.trafficGenerator = TrafficGenerator()
+		self.trafficGenerator = trafficGenerator()
 		self.trafficGenerator.bindBroadcastingSocket(self.network.getReceivingSocket())
 		
 		self.network.startThread()
 		
-		self.menuManager = PlayGame_MenuManager()
+
 		self.createScreen()
 		self.gridify()
 		self.show()
@@ -43,10 +43,6 @@ class Screen_PlayGame(AppObject):
 		FrameCols = 24
 		FrameRows = 40
 
-		# Position F Key - Row
-		intPosFKeyRow = 35
-		intFKeyRowSpan = 5
-		intFKeyColSpan = 2
 		
 		self.columnconfigure(0, weight = 1)
 		self.rowconfigure(0, weight = 1)

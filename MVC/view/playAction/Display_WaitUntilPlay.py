@@ -71,7 +71,7 @@ class Display_WaitUntilPlay(Display):
     def getTimeRemaining(self):
         return self.intTimeRemaining
         
-    def beginCount(self, counttime=30.0):
+    def beginCount(self, counttime=3.0):
         print("Beginning count with counttime: {}".format(counttime))
         self.timeUntil = time.time() + counttime
         self.resetToDefault()

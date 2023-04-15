@@ -47,9 +47,9 @@ class Display_GameBoard(AppObject):
         for i in range(intBackgroundRows):
             self.rowconfigure(i,weight=1, uniform="gridUniform")
             
-        self.frameGameAction.grid(column=0, row=0, columnspan=10, rowspan=6, padx=2, pady=2, sticky="NSEW")
+        self.frameGameAction.grid(column=0, row=0, columnspan=10, rowspan=4, padx=2, pady=2, sticky="NSEW")
         self.frameGameAction.gridify()
-        self.frameScoreboard.grid(column=0, row=6, columnspan=10, rowspan=9, padx=2, pady=2, sticky="NSEW")
+        self.frameScoreboard.grid(column=0, row=4, columnspan=10, rowspan=8, padx=2, pady=2, sticky="NSEW")
         self.frameScoreboard.gridify()
         self.frameGameTimer.grid(column=0, row=12, columnspan=10, rowspan=1, padx=2, pady=2, sticky="NSEW")
         self.frameGameTimer.gridify()

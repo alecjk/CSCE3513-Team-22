@@ -58,7 +58,7 @@ class screen_PlayAction(AppObject):
         strBGColor = "#28CA00"
         strTextcolorMain = "#FFFFFF"
         strFont = self.strDefaultFont
-        intTextsizeMain = 48
+        intTextsizeMain = 24
 
         self.buttonSubmit = tk.Button(self,
                                       text="Simulate Game",
@@ -90,7 +90,7 @@ class screen_PlayAction(AppObject):
 
     def gridify(self):
         intMainFrameCols = 24
-        intMainFrameRows = 40
+        intMainFrameRows = 35
 
 
         self.columnconfigure(0, weight=1)
@@ -105,7 +105,7 @@ class screen_PlayAction(AppObject):
         self.frameWaitUntilPlay.hide()
 
         self.frameGameboard.grid(column=2, row=1, columnspan=20, rowspan=30, padx=2, pady=2, sticky="NSEW")
-        self.buttonSubmit.grid(column=10, row=35, columnspan=5, rowspan=2, sticky="NSEW")
+        self.buttonSubmit.grid(column=10, row=34, columnspan=3, rowspan=2, sticky="NSEW")
         self.frameGameboard.gridify()
 
     def getMenuState(self):

@@ -63,7 +63,7 @@ class Display_AddCodename(Display):
         intTextsizeError = 14
         intTextsizeMain = 16
 
-        self.proWidget(self)
+        self.propagateWidget(self)
         self.frameInsPInterior = tk.Frame(self, bg=strBGColor)
         self.labelInsPHead = tk.Label(self.frameInsPInterior,
                                       text="Insert Player",

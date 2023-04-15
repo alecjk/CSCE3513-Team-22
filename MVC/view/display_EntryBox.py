@@ -68,7 +68,7 @@ class Display_SingleEntryBox(Display):
         intTextsizeHint = 15
         intTextsizeMain = 16
 
-        self.proWidget(self)
+        self.propagateWidget(self)
         self.frameInterior = tk.Frame(self, bg=strBGColor)
         self.labelTitle = tk.Label(self.frameInterior,
                                    text="This is a Title",

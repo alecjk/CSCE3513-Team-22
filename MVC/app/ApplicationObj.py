@@ -1,13 +1,14 @@
 import tkinter as tk
 
 
+
 class AppObject(tk.Frame):
     def __init__(self, tkRoot):
         super().__init__(tkRoot)
         self.root = tkRoot
         self.setDefaults()
 
-    def proWidget(self, widget):
+    def propagateWidget(self, widget):
         widget.pack_propagate(False)
         widget.grid_propagate(False)
 

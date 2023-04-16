@@ -1,4 +1,5 @@
 from sys import platform
+from winsound import PlaySound
 from MVC.view.entryTerminal.screenEntryTerminal import *
 from MVC.view.splash.splash import *
 from MVC.app.ApplicationState import *
@@ -84,7 +85,7 @@ class App(tk.Frame):
 
 
     def playAudio(self):
-        playsound('resources/game_action.mp4')
+        PlaySound('resources/game_action.mp4')
 
     def unloadCurrentScreen(self):
         if self.appState.getState() == AppState.splash:

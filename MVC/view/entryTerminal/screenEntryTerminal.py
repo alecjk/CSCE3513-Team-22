@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 from MVC.model.database.DB import *
@@ -160,8 +161,3 @@ class ScreenEntryTerminal(AppObject):
     def deletePlayer(self, event=None):
         self.frameTeamBoxes.deletePlayer()
         self.root.update()
-
-
-
-
-

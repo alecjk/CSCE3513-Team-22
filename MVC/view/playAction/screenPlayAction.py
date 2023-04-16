@@ -94,7 +94,7 @@ class screen_PlayAction(AppObject):
         self.frameWaitUntilPlay.hide()
 
         self.frameGameboard.grid(column=2, row=1, columnspan=20, rowspan=30, padx=2, pady=2, sticky="NSEW")
-        self.buttonSubmit.grid(column=10, row=34, columnspan=3, rowspan=2, sticky="NSEW")
+        self.buttonSubmit.grid(column=10, row=32, columnspan=3, rowspan=2, sticky="NSEW")
         self.frameGameboard.gridify()
 
     def getMenuState(self):

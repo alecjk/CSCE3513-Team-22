@@ -23,6 +23,53 @@ class Database():
         self.intConnection = Database.DB_NO_CONN
         self.strSelectedTable = "player"
 
+    def openConnection(self):
+        try:
+
+            print(self.conn)
+            self.cursor = self.conn.cursor()
+            print(self.cursor)
+            self.intConnection = Database.DB_HEROKU
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("Error:")
+            print(error)
+            try:
+                os.mkdir(os.path.relpath('db'))
+            except (Exception) as error:
+                print("Error:")
+                print(error)
+            strOSPath = os.path.relpath('db/database.db')
+            self.conn = sqlite3.connect(strOSPath)
+            print(self.conn)
+            self.cursor = self.conn.cursor()
+            print(self.cursor)
+            self.intConnection = Database.DB_SQLITE
+            try:
+                self.cursor.execute("""CREATE TABLE player (
+                           id INT,
+                           first_name VARCHAR(30),
+                           last_name VARCHAR(30),
+                           codename VARCHAR(30));""")
+            except (Exception) as error:
+                print("Error:")
+                print(error)
+
+    def connectUsingVenv(self):
+        # DATABASE_URL = os.environ['DATABASE_URL']
+        DATABASE_URL = "postgres://afnatpikeuzgvb:b9929e6440f676fdb770c4962b288c7b6d284d74e670c87c0d064f8b11d9bc2d@ec2-34-195-163-197.compute-1.amazonaws.com:5432/dd30p75admf175"
+        print(DATABASE_URL)
+        self.conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+    def connectUsingCode(self):
+        self.conn = psycopg2.connect(database="db_username",
+                                     host="db_host",
+                                     user="db_user",
+                                     password="db_pass",
+                                     port="db_port",
+                                     keepalives=1,
+                                     keepalives_idle=30,
+                                     keepalives_interval=10,
+                                     keepalives_count=5)
 
     def selectTable(self, strTableName):
         self.strSelectedTable = strTableName

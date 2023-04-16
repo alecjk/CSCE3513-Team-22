@@ -7,7 +7,10 @@ class AppState:
         self.state = self.splash
 
     def setState(self, state):
-        self.state = state
-
+        if state >= self.splash and state <= self.playAction:
+            self.state = state
+            return True
+        else:
+            return False
     def getState(self):
         return self.state

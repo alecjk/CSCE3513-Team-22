@@ -45,15 +45,6 @@ class screen_PlayAction(AppObject):
         if self.isTrafficGeneratorRunning() is False:
             self.startTrafficGenerator()
 
-    def isTrafficGeneratorRunning(self):
-        return self.trafficGenerator.isRunning()
-
-    def startTrafficGenerator(self):
-        self.trafficGenerator.startThread()
-
-    def endTrafficGenerator(self):
-        self.trafficGenerator.stopThread()
-
     def creatSimulateButton(self):
         strBGColor = "#28CA00"
         strTextcolorMain = "#FFFFFF"
@@ -86,8 +77,6 @@ class screen_PlayAction(AppObject):
         self.frameWaitUntilPlay.bindMethodAfterFinished(self.startGameTimer)
         self.propagateWidget(self.frameWaitUntilPlay)
 
-
-
     def gridify(self):
         intMainFrameCols = 24
         intMainFrameRows = 35
@@ -105,7 +94,7 @@ class screen_PlayAction(AppObject):
         self.frameWaitUntilPlay.hide()
 
         self.frameGameboard.grid(column=2, row=1, columnspan=20, rowspan=30, padx=2, pady=2, sticky="NSEW")
-        self.buttonSubmit.grid(column=10, row=34, columnspan=3, rowspan=2, sticky="NSEW")
+        self.buttonSubmit.grid(column=10, row=32, columnspan=3, rowspan=2, sticky="NSEW")
         self.frameGameboard.gridify()
 
     def getMenuState(self):
@@ -124,6 +113,10 @@ class screen_PlayAction(AppObject):
 
     def updateScreen(self):
         if self.frameGameboard.frameGameTimer.isTimerActive() and not self.frameGameboard.frameGameTimer.isTimerPaused():
+            if self.updateHitEventByLastTrans():
+                strPlayerHit = self.network.getPlayerHit()
+                if strPlayerHit != None:
+                    self.network.broadcastUDP(strPlayerHit)
             self.frameGameboard.frameGameTimer.updateTimer()
             if abs(time.time() - self.floatHighScoreFlashLastTime) >= 0.25:
                 self.flashTeamScore()
@@ -221,4 +214,11 @@ class screen_PlayAction(AppObject):
         self.methodMoveToEdit = method
 
 
+    def isTrafficGeneratorRunning(self):
+        return self.trafficGenerator.isRunning()
 
+    def startTrafficGenerator(self):
+        self.trafficGenerator.startThread()
+
+    def endTrafficGenerator(self):
+        self.trafficGenerator.stopThread()

@@ -1,2 +1,2 @@
 Program Requirements:
-    Install Modules: tkinter, pynput, os, export, psycopg2, sqlite3, supabase, json, sys, playsound
+    Install Modules: tkinter, pynput, os, export, psycopg2, sqlite3, supabase, json, sys, playsound, pygame

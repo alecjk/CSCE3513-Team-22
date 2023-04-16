@@ -4,8 +4,8 @@ from MVC.model.database.DB import *
 from MVC.app.ApplicationObj import *
 from MVC.view.entryTerminal.teamBox import *
 from MVC.controller.entryTerminalController import *
-from playsound import playsound
-
+import pygame
+import random
 
 
 
@@ -39,6 +39,13 @@ class ScreenEntryTerminal(AppObject):
 
     def bind_StartGame(self):
         self.switchToPlayAction()
+        pygame.mixer.init()
+        trackChar = str(random.getrandbits(3) + 1)
+        print("Playing Track " + trackChar)
+        pygame.mixer.music.load("resources\photon_tracks\Track0" + trackChar + ".mp3")
+        pygame.mixer.music.play()
+        
+        
 
 
     def creatStartGameButton(self):
@@ -153,5 +160,8 @@ class ScreenEntryTerminal(AppObject):
     def deletePlayer(self, event=None):
         self.frameTeamBoxes.deletePlayer()
         self.root.update()
+
+
+
 
 

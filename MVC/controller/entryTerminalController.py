@@ -69,7 +69,7 @@ class entryTerminalController(AppObject):
         self.intDisplay = self.PLAYERNAME
         listPlayerAtArrow = self.getPlayerAtArrow()
         self.displayAddPlayerName.setPlayerName(listPlayerAtArrow[0],
-                                                listPlayerAtArrow[1])
+                                                listPlaayerAtArrow[1])
         self.displayAddPlayerName.openSelf()
         self.root.update()
 

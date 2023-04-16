@@ -22,6 +22,8 @@ class Listener:
         self.screenPlayAction = playAction
         self.appState = appState
 
+
+
     def start(self):
         self.listener = keyboard.Listener(
             on_press=self.on_press,
@@ -38,8 +40,6 @@ class Listener:
                 self.playerSelect(key)
             elif self.screenPlayerEntry.getDisplayState() != self.screenPlayerEntry.PLAYERSELECT:
                 self.playerIns(key)
-        elif self.appState.getState() == AppState.splash:
-            pass
 
     def playerSelect(self, key):
         if key == keyboard.Key.up:
@@ -54,9 +54,6 @@ class Listener:
             self.screenPlayerEntry.openAddPlayerID()
         if key == keyboard.Key.delete:
             self.screenPlayerEntry.deletePlayer()
-
-    def running(self):
-        return self.listener is not None
 
 
 

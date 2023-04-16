@@ -13,7 +13,8 @@ class Display_GameTimer(AppObject):
         self.floatLastUpdatedTime = 0.0
         self.floatTimePausedRemaining = 0.0
         self.createSelf()
-        
+
+
     def createSelf(self):
         strBGColor = "#000000"
         strTextColor = "#FFFFFF"

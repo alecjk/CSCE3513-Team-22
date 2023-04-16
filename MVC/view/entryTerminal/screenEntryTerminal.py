@@ -40,6 +40,7 @@ class ScreenEntryTerminal(AppObject):
     def bind_StartGame(self):
         self.switchToPlayAction()
 
+
     def creatStartGameButton(self):
         strBGColor = "#28CA00"
         strTextcolorMain = "#FFFFFF"
